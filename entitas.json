@@ -1,0 +1,147 @@
+{
+  "namespace": "shmupwarz",
+  "src": "src",
+  "output": {
+    "systems": "Systems"
+  },
+  "alloc": {
+    "entities": 128,
+    "components": 64
+  },
+  "components": {
+    "Active": false,
+    "Bounds": [
+      "width:Double",
+      "height:Double"
+    ],
+    "Bullet": false,
+    "ColorTween": [
+      "redMin:Double",
+      "redMax:Double",
+      "redSpeed:Double",
+      "greenMin:Double",
+      "greenMax:Double",
+      "greenSpeed:Double",
+      "blueMin:Double",
+      "blueMax:Double",
+      "blueSpeed:Double",
+      "alphaMin:Double",
+      "alphaMax:Double",
+      "alphaSpeed:Double",
+      "redAnimate:Bool",
+      "greenAnimate:Bool",
+      "blueAnimate:Bool",
+      "alphaAnimate:Bool",
+      "repeat:Bool"
+    ],
+    "Destroy": false,
+    "Enemy": false,
+    "Expires": [
+      "delay:Double"
+    ],
+    "Health": [
+      "health:Double",
+      "maximumHealth:Double"
+    ],
+    "Layer": [
+      "ordinal:Layer"
+    ],
+    "Player": false,
+    "Position": [
+      "x:Double",
+      "y:Double"
+    ],
+    "Resource": [
+      "path:String",
+      "sprite:SdlTexture",
+      "bgd:Bool"
+    ],
+    "ScaleTween": [
+      "min:Double",
+      "max:Double",
+      "speed:Double",
+      "repeat:Bool",
+      "active:Bool"
+    ],
+    "Scale": [
+      "x:Double",
+      "y:Double"
+    ],
+    "Score": [
+      "value:Double"
+    ],
+    "SoundEffect": [
+      "effect:Effect"
+    ],
+    "Text": [
+      "text:String",
+      "sprite:SdlTexture"
+    ],
+    "Tint": [
+      "r:Int",
+      "g:Int",
+      "b:Int",
+      "a:Int"
+    ],
+    "Velocity": [
+      "x:Double",
+      "y:Double"
+    ]
+  },
+  "systems": {
+    "CollisionSystem": [
+      "ISetWorld",
+      "IExecuteSystem",
+      "IInitializeSystem"
+    ],
+    "ColorTweenSystem": [
+      "ISetWorld",
+      "IExecuteSystem"
+    ],
+    "EntitySpawningTimerSystem": [
+      "ISetWorld",
+      "IExecuteSystem",
+      "IInitializeSystem"
+    ],
+    "ExpiringSystem": [
+      "ISetWorld",
+      "IExecuteSystem"
+    ],
+    "HealthRenderSystem": [
+      "ISetWorld",
+      "IExecuteSystem",
+      "IInitializeSystem"
+    ],
+    "MovementSystem": [
+      "ISetWorld",
+      "IExecuteSystem"
+    ],
+    "PlayerInputSystem": [
+      "ISetWorld",
+      "IExecuteSystem",
+      "IInitializeSystem"
+    ],
+    "RemoveOffscreenShipsSystem": [
+      "ISetWorld",
+      "IExecuteSystem"
+    ],
+    "RenderPositionSystem": [
+      "ISetWorld",
+      "IExecuteSystem"
+    ],
+    "SoundEffectSystem": [
+      "ISetWorld",
+      "IExecuteSystem",
+      "IInitializeSystem"
+    ],
+    "ScaleTweenSystem": [
+      "ISetWorld",
+      "IExecuteSystem"
+    ],
+    "ViewManagerSystem": [
+      "ISetWorld",
+      "IExecuteSystem"
+    ]
+  },
+  "entities": {}
+}
