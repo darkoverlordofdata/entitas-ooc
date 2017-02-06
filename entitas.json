@@ -98,6 +98,11 @@
       "ISetWorld",
       "IExecuteSystem"
     ],
+    "DestroySystem": [
+      "ISetWorld",
+      "IExecuteSystem",
+      "IInitializeSystem"
+    ],
     "EntitySpawningTimerSystem": [
       "ISetWorld",
       "IExecuteSystem",
@@ -108,6 +113,11 @@
       "IExecuteSystem"
     ],
     "HealthRenderSystem": [
+      "ISetWorld",
+      "IExecuteSystem",
+      "IInitializeSystem"
+    ],
+    "HudRenderSystem": [
       "ISetWorld",
       "IExecuteSystem",
       "IInitializeSystem"

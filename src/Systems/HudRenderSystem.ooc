@@ -21,29 +21,13 @@ import Components
 import Entities
 import Game
 
-ExpiringSystem : class extends ISystem implements  ISetWorld, IInitializeSystem, IExecuteSystem {
+HudRenderSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem,  IInitializeSystem {
     game : Game
     world: World
-    group: Group
 
     init: func(=game)
     setWorld: func(=world)
+    execute: func(){}
+    initialize: func(){}
 
-    initialize: func() {
-        group = world getGroup(Matcher matchAllOf(Component Expires))
-
-    }
-
-    execute: func(){
-        entities := group getEntities()
-        delta := game delta
-
-        for (i in 0..entities length) {
-            e := entities[i]
-            expires := e expires as ExpiresComponent
-            expires delay = expires delay - delta
-            if (expires delay <= 0) e setDestroy(true)
-            
-        }
-    }
 }

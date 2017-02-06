@@ -220,8 +220,8 @@ extend Entity {
     /* Entity: Bounds methods*/
 
     /** @type Bounds */
-    getBounds: func() -> BoundsComponent {
-        getComponent(Component Bounds as Int) as BoundsComponent
+    bounds : IComponent {
+        get { getComponent(Component Bounds as Int) }
     }
     /** @type boolean */
     hasBounds : Bool {
@@ -236,7 +236,7 @@ extend Entity {
      * @return entitas.Entity
      */
     addBounds: func(width:Double,height:Double) -> This {
-        c := __boundsComponentPool size > 0 ? __boundsComponentPool pop() : BoundsComponent new()
+        c := __boundsComponentPool empty?() ? BoundsComponent new() : __boundsComponentPool pop()
         c width = width
         c height = height
         addComponent(Component Bounds as Int, c)
@@ -248,8 +248,8 @@ extend Entity {
      * @return entitas.Entity
      */
     replaceBounds: func(width:Double,height:Double) -> This {
-        previousComponent := this hasBounds ? this getBounds() : null
-        c := __boundsComponentPool size > 0 ? __boundsComponentPool pop() : BoundsComponent new()
+        previousComponent := this hasBounds ? this bounds as BoundsComponent : null
+        c := __boundsComponentPool empty?() ? BoundsComponent new() : __boundsComponentPool pop()
         c width = width
         c height = height
         replaceComponent(Component Bounds as Int, c) 
@@ -261,7 +261,7 @@ extend Entity {
      * @returns entitas.Entity
      */
     removeBounds: func() -> This {
-        c := getBounds()
+        c := bounds as BoundsComponent
         removeComponent(Component Bounds as Int) 
         __boundsComponentPool push(c)
         this
@@ -292,8 +292,8 @@ extend Entity {
     /* Entity: ColorTween methods*/
 
     /** @type ColorTween */
-    getColorTween: func() -> ColorTweenComponent {
-        getComponent(Component ColorTween as Int) as ColorTweenComponent
+    colorTween : IComponent {
+        get { getComponent(Component ColorTween as Int) }
     }
     /** @type boolean */
     hasColorTween : Bool {
@@ -323,7 +323,7 @@ extend Entity {
      * @return entitas.Entity
      */
     addColorTween: func(redMin:Double,redMax:Double,redSpeed:Double,greenMin:Double,greenMax:Double,greenSpeed:Double,blueMin:Double,blueMax:Double,blueSpeed:Double,alphaMin:Double,alphaMax:Double,alphaSpeed:Double,redAnimate:Bool,greenAnimate:Bool,blueAnimate:Bool,alphaAnimate:Bool,repeat:Bool) -> This {
-        c := __colorTweenComponentPool size > 0 ? __colorTweenComponentPool pop() : ColorTweenComponent new()
+        c := __colorTweenComponentPool empty?() ? ColorTweenComponent new() : __colorTweenComponentPool pop()
         c redMin = redMin
         c redMax = redMax
         c redSpeed = redSpeed
@@ -365,8 +365,8 @@ extend Entity {
      * @return entitas.Entity
      */
     replaceColorTween: func(redMin:Double,redMax:Double,redSpeed:Double,greenMin:Double,greenMax:Double,greenSpeed:Double,blueMin:Double,blueMax:Double,blueSpeed:Double,alphaMin:Double,alphaMax:Double,alphaSpeed:Double,redAnimate:Bool,greenAnimate:Bool,blueAnimate:Bool,alphaAnimate:Bool,repeat:Bool) -> This {
-        previousComponent := this hasColorTween ? this getColorTween() : null
-        c := __colorTweenComponentPool size > 0 ? __colorTweenComponentPool pop() : ColorTweenComponent new()
+        previousComponent := this hasColorTween ? this colorTween as ColorTweenComponent : null
+        c := __colorTweenComponentPool empty?() ? ColorTweenComponent new() : __colorTweenComponentPool pop()
         c redMin = redMin
         c redMax = redMax
         c redSpeed = redSpeed
@@ -393,7 +393,7 @@ extend Entity {
      * @returns entitas.Entity
      */
     removeColorTween: func() -> This {
-        c := getColorTween()
+        c := colorTween as ColorTweenComponent
         removeComponent(Component ColorTween as Int) 
         __colorTweenComponentPool push(c)
         this
@@ -446,8 +446,8 @@ extend Entity {
     /* Entity: Expires methods*/
 
     /** @type Expires */
-    getExpires: func() -> ExpiresComponent {
-        getComponent(Component Expires as Int) as ExpiresComponent
+    expires : IComponent {
+        get { getComponent(Component Expires as Int) }
     }
     /** @type boolean */
     hasExpires : Bool {
@@ -461,7 +461,7 @@ extend Entity {
      * @return entitas.Entity
      */
     addExpires: func(delay:Double) -> This {
-        c := __expiresComponentPool size > 0 ? __expiresComponentPool pop() : ExpiresComponent new()
+        c := __expiresComponentPool empty?() ? ExpiresComponent new() : __expiresComponentPool pop()
         c delay = delay
         addComponent(Component Expires as Int, c)
         this
@@ -471,8 +471,8 @@ extend Entity {
      * @return entitas.Entity
      */
     replaceExpires: func(delay:Double) -> This {
-        previousComponent := this hasExpires ? this getExpires() : null
-        c := __expiresComponentPool size > 0 ? __expiresComponentPool pop() : ExpiresComponent new()
+        previousComponent := this hasExpires ? this expires as ExpiresComponent : null
+        c := __expiresComponentPool empty?() ? ExpiresComponent new() : __expiresComponentPool pop()
         c delay = delay
         replaceComponent(Component Expires as Int, c) 
         if (previousComponent != null)
@@ -483,7 +483,7 @@ extend Entity {
      * @returns entitas.Entity
      */
     removeExpires: func() -> This {
-        c := getExpires()
+        c := expires as ExpiresComponent
         removeComponent(Component Expires as Int) 
         __expiresComponentPool push(c)
         this
@@ -492,8 +492,8 @@ extend Entity {
     /* Entity: Health methods*/
 
     /** @type Health */
-    getHealth: func() -> HealthComponent {
-        getComponent(Component Health as Int) as HealthComponent
+    health : IComponent {
+        get { getComponent(Component Health as Int) }
     }
     /** @type boolean */
     hasHealth : Bool {
@@ -508,7 +508,7 @@ extend Entity {
      * @return entitas.Entity
      */
     addHealth: func(health:Double,maximumHealth:Double) -> This {
-        c := __healthComponentPool size > 0 ? __healthComponentPool pop() : HealthComponent new()
+        c := __healthComponentPool empty?() ? HealthComponent new() : __healthComponentPool pop()
         c health = health
         c maximumHealth = maximumHealth
         addComponent(Component Health as Int, c)
@@ -520,8 +520,8 @@ extend Entity {
      * @return entitas.Entity
      */
     replaceHealth: func(health:Double,maximumHealth:Double) -> This {
-        previousComponent := this hasHealth ? this getHealth() : null
-        c := __healthComponentPool size > 0 ? __healthComponentPool pop() : HealthComponent new()
+        previousComponent := this hasHealth ? this health as HealthComponent : null
+        c := __healthComponentPool empty?() ? HealthComponent new() : __healthComponentPool pop()
         c health = health
         c maximumHealth = maximumHealth
         replaceComponent(Component Health as Int, c) 
@@ -533,7 +533,7 @@ extend Entity {
      * @returns entitas.Entity
      */
     removeHealth: func() -> This {
-        c := getHealth()
+        c := health as HealthComponent
         removeComponent(Component Health as Int) 
         __healthComponentPool push(c)
         this
@@ -542,8 +542,8 @@ extend Entity {
     /* Entity: Layer methods*/
 
     /** @type Layer */
-    getLayer: func() -> LayerComponent {
-        getComponent(Component Layer as Int) as LayerComponent
+    layer : IComponent {
+        get { getComponent(Component Layer as Int) }
     }
     /** @type boolean */
     hasLayer : Bool {
@@ -557,7 +557,7 @@ extend Entity {
      * @return entitas.Entity
      */
     addLayer: func(ordinal:Layer) -> This {
-        c := __layerComponentPool size > 0 ? __layerComponentPool pop() : LayerComponent new()
+        c := __layerComponentPool empty?() ? LayerComponent new() : __layerComponentPool pop()
         c ordinal = ordinal
         addComponent(Component Layer as Int, c)
         this
@@ -567,8 +567,8 @@ extend Entity {
      * @return entitas.Entity
      */
     replaceLayer: func(ordinal:Layer) -> This {
-        previousComponent := this hasLayer ? this getLayer() : null
-        c := __layerComponentPool size > 0 ? __layerComponentPool pop() : LayerComponent new()
+        previousComponent := this hasLayer ? this layer as LayerComponent : null
+        c := __layerComponentPool empty?() ? LayerComponent new() : __layerComponentPool pop()
         c ordinal = ordinal
         replaceComponent(Component Layer as Int, c) 
         if (previousComponent != null)
@@ -579,7 +579,7 @@ extend Entity {
      * @returns entitas.Entity
      */
     removeLayer: func() -> This {
-        c := getLayer()
+        c := layer as LayerComponent
         removeComponent(Component Layer as Int) 
         __layerComponentPool push(c)
         this
@@ -610,8 +610,8 @@ extend Entity {
     /* Entity: Position methods*/
 
     /** @type Position */
-    getPosition: func() -> PositionComponent {
-        getComponent(Component Position as Int) as PositionComponent
+    position : IComponent {
+        get { getComponent(Component Position as Int) }
     }
     /** @type boolean */
     hasPosition : Bool {
@@ -626,7 +626,7 @@ extend Entity {
      * @return entitas.Entity
      */
     addPosition: func(x:Double,y:Double) -> This {
-        c := __positionComponentPool size > 0 ? __positionComponentPool pop() : PositionComponent new()
+        c := __positionComponentPool empty?() ? PositionComponent new() : __positionComponentPool pop()
         c x = x
         c y = y
         addComponent(Component Position as Int, c)
@@ -638,8 +638,8 @@ extend Entity {
      * @return entitas.Entity
      */
     replacePosition: func(x:Double,y:Double) -> This {
-        previousComponent := this hasPosition ? this getPosition() : null
-        c := __positionComponentPool size > 0 ? __positionComponentPool pop() : PositionComponent new()
+        previousComponent := this hasPosition ? this position as PositionComponent : null
+        c := __positionComponentPool empty?() ? PositionComponent new() : __positionComponentPool pop()
         c x = x
         c y = y
         replaceComponent(Component Position as Int, c) 
@@ -651,7 +651,7 @@ extend Entity {
      * @returns entitas.Entity
      */
     removePosition: func() -> This {
-        c := getPosition()
+        c := position as PositionComponent
         removeComponent(Component Position as Int) 
         __positionComponentPool push(c)
         this
@@ -660,8 +660,8 @@ extend Entity {
     /* Entity: Resource methods*/
 
     /** @type Resource */
-    getResource: func() -> ResourceComponent {
-        getComponent(Component Resource as Int) as ResourceComponent
+    resource : IComponent {
+        get { getComponent(Component Resource as Int) }
     }
     /** @type boolean */
     hasResource : Bool {
@@ -677,7 +677,7 @@ extend Entity {
      * @return entitas.Entity
      */
     addResource: func(path:String,sprite:SdlTexture,bgd:Bool) -> This {
-        c := __resourceComponentPool size > 0 ? __resourceComponentPool pop() : ResourceComponent new()
+        c := __resourceComponentPool empty?() ? ResourceComponent new() : __resourceComponentPool pop()
         c path = path
         c sprite = sprite
         c bgd = bgd
@@ -691,8 +691,8 @@ extend Entity {
      * @return entitas.Entity
      */
     replaceResource: func(path:String,sprite:SdlTexture,bgd:Bool) -> This {
-        previousComponent := this hasResource ? this getResource() : null
-        c := __resourceComponentPool size > 0 ? __resourceComponentPool pop() : ResourceComponent new()
+        previousComponent := this hasResource ? this resource as ResourceComponent : null
+        c := __resourceComponentPool empty?() ? ResourceComponent new() : __resourceComponentPool pop()
         c path = path
         c sprite = sprite
         c bgd = bgd
@@ -705,7 +705,7 @@ extend Entity {
      * @returns entitas.Entity
      */
     removeResource: func() -> This {
-        c := getResource()
+        c := resource as ResourceComponent
         removeComponent(Component Resource as Int) 
         __resourceComponentPool push(c)
         this
@@ -714,8 +714,8 @@ extend Entity {
     /* Entity: ScaleTween methods*/
 
     /** @type ScaleTween */
-    getScaleTween: func() -> ScaleTweenComponent {
-        getComponent(Component ScaleTween as Int) as ScaleTweenComponent
+    scaleTween : IComponent {
+        get { getComponent(Component ScaleTween as Int) }
     }
     /** @type boolean */
     hasScaleTween : Bool {
@@ -733,7 +733,7 @@ extend Entity {
      * @return entitas.Entity
      */
     addScaleTween: func(min:Double,max:Double,speed:Double,repeat:Bool,active:Bool) -> This {
-        c := __scaleTweenComponentPool size > 0 ? __scaleTweenComponentPool pop() : ScaleTweenComponent new()
+        c := __scaleTweenComponentPool empty?() ? ScaleTweenComponent new() : __scaleTweenComponentPool pop()
         c min = min
         c max = max
         c speed = speed
@@ -751,8 +751,8 @@ extend Entity {
      * @return entitas.Entity
      */
     replaceScaleTween: func(min:Double,max:Double,speed:Double,repeat:Bool,active:Bool) -> This {
-        previousComponent := this hasScaleTween ? this getScaleTween() : null
-        c := __scaleTweenComponentPool size > 0 ? __scaleTweenComponentPool pop() : ScaleTweenComponent new()
+        previousComponent := this hasScaleTween ? this scaleTween as ScaleTweenComponent : null
+        c := __scaleTweenComponentPool empty?() ? ScaleTweenComponent new() : __scaleTweenComponentPool pop()
         c min = min
         c max = max
         c speed = speed
@@ -767,7 +767,7 @@ extend Entity {
      * @returns entitas.Entity
      */
     removeScaleTween: func() -> This {
-        c := getScaleTween()
+        c := scaleTween as ScaleTweenComponent
         removeComponent(Component ScaleTween as Int) 
         __scaleTweenComponentPool push(c)
         this
@@ -776,8 +776,8 @@ extend Entity {
     /* Entity: Scale methods*/
 
     /** @type Scale */
-    getScale: func() -> ScaleComponent {
-        getComponent(Component Scale as Int) as ScaleComponent
+    scale : IComponent {
+        get { getComponent(Component Scale as Int) }
     }
     /** @type boolean */
     hasScale : Bool {
@@ -792,7 +792,7 @@ extend Entity {
      * @return entitas.Entity
      */
     addScale: func(x:Double,y:Double) -> This {
-        c := __scaleComponentPool size > 0 ? __scaleComponentPool pop() : ScaleComponent new()
+        c := __scaleComponentPool empty?() ? ScaleComponent new() : __scaleComponentPool pop()
         c x = x
         c y = y
         addComponent(Component Scale as Int, c)
@@ -804,8 +804,8 @@ extend Entity {
      * @return entitas.Entity
      */
     replaceScale: func(x:Double,y:Double) -> This {
-        previousComponent := this hasScale ? this getScale() : null
-        c := __scaleComponentPool size > 0 ? __scaleComponentPool pop() : ScaleComponent new()
+        previousComponent := this hasScale ? this scale as ScaleComponent : null
+        c := __scaleComponentPool empty?() ? ScaleComponent new() : __scaleComponentPool pop()
         c x = x
         c y = y
         replaceComponent(Component Scale as Int, c) 
@@ -817,7 +817,7 @@ extend Entity {
      * @returns entitas.Entity
      */
     removeScale: func() -> This {
-        c := getScale()
+        c := scale as ScaleComponent
         removeComponent(Component Scale as Int) 
         __scaleComponentPool push(c)
         this
@@ -826,8 +826,8 @@ extend Entity {
     /* Entity: Score methods*/
 
     /** @type Score */
-    getScore: func() -> ScoreComponent {
-        getComponent(Component Score as Int) as ScoreComponent
+    score : IComponent {
+        get { getComponent(Component Score as Int) }
     }
     /** @type boolean */
     hasScore : Bool {
@@ -841,7 +841,7 @@ extend Entity {
      * @return entitas.Entity
      */
     addScore: func(value:Double) -> This {
-        c := __scoreComponentPool size > 0 ? __scoreComponentPool pop() : ScoreComponent new()
+        c := __scoreComponentPool empty?() ? ScoreComponent new() : __scoreComponentPool pop()
         c value = value
         addComponent(Component Score as Int, c)
         this
@@ -851,8 +851,8 @@ extend Entity {
      * @return entitas.Entity
      */
     replaceScore: func(value:Double) -> This {
-        previousComponent := this hasScore ? this getScore() : null
-        c := __scoreComponentPool size > 0 ? __scoreComponentPool pop() : ScoreComponent new()
+        previousComponent := this hasScore ? this score as ScoreComponent : null
+        c := __scoreComponentPool empty?() ? ScoreComponent new() : __scoreComponentPool pop()
         c value = value
         replaceComponent(Component Score as Int, c) 
         if (previousComponent != null)
@@ -863,7 +863,7 @@ extend Entity {
      * @returns entitas.Entity
      */
     removeScore: func() -> This {
-        c := getScore()
+        c := score as ScoreComponent
         removeComponent(Component Score as Int) 
         __scoreComponentPool push(c)
         this
@@ -872,8 +872,8 @@ extend Entity {
     /* Entity: SoundEffect methods*/
 
     /** @type SoundEffect */
-    getSoundEffect: func() -> SoundEffectComponent {
-        getComponent(Component SoundEffect as Int) as SoundEffectComponent
+    soundEffect : IComponent {
+        get { getComponent(Component SoundEffect as Int) }
     }
     /** @type boolean */
     hasSoundEffect : Bool {
@@ -887,7 +887,7 @@ extend Entity {
      * @return entitas.Entity
      */
     addSoundEffect: func(effect:Effect) -> This {
-        c := __soundEffectComponentPool size > 0 ? __soundEffectComponentPool pop() : SoundEffectComponent new()
+        c := __soundEffectComponentPool empty?() ? SoundEffectComponent new() : __soundEffectComponentPool pop()
         c effect = effect
         addComponent(Component SoundEffect as Int, c)
         this
@@ -897,8 +897,8 @@ extend Entity {
      * @return entitas.Entity
      */
     replaceSoundEffect: func(effect:Effect) -> This {
-        previousComponent := this hasSoundEffect ? this getSoundEffect() : null
-        c := __soundEffectComponentPool size > 0 ? __soundEffectComponentPool pop() : SoundEffectComponent new()
+        previousComponent := this hasSoundEffect ? this soundEffect as SoundEffectComponent : null
+        c := __soundEffectComponentPool empty?() ? SoundEffectComponent new() : __soundEffectComponentPool pop()
         c effect = effect
         replaceComponent(Component SoundEffect as Int, c) 
         if (previousComponent != null)
@@ -909,7 +909,7 @@ extend Entity {
      * @returns entitas.Entity
      */
     removeSoundEffect: func() -> This {
-        c := getSoundEffect()
+        c := soundEffect as SoundEffectComponent
         removeComponent(Component SoundEffect as Int) 
         __soundEffectComponentPool push(c)
         this
@@ -918,8 +918,8 @@ extend Entity {
     /* Entity: Text methods*/
 
     /** @type Text */
-    getText: func() -> TextComponent {
-        getComponent(Component Text as Int) as TextComponent
+    text : IComponent {
+        get { getComponent(Component Text as Int) }
     }
     /** @type boolean */
     hasText : Bool {
@@ -934,7 +934,7 @@ extend Entity {
      * @return entitas.Entity
      */
     addText: func(text:String,sprite:SdlTexture) -> This {
-        c := __textComponentPool size > 0 ? __textComponentPool pop() : TextComponent new()
+        c := __textComponentPool empty?() ? TextComponent new() : __textComponentPool pop()
         c text = text
         c sprite = sprite
         addComponent(Component Text as Int, c)
@@ -946,8 +946,8 @@ extend Entity {
      * @return entitas.Entity
      */
     replaceText: func(text:String,sprite:SdlTexture) -> This {
-        previousComponent := this hasText ? this getText() : null
-        c := __textComponentPool size > 0 ? __textComponentPool pop() : TextComponent new()
+        previousComponent := this hasText ? this text as TextComponent : null
+        c := __textComponentPool empty?() ? TextComponent new() : __textComponentPool pop()
         c text = text
         c sprite = sprite
         replaceComponent(Component Text as Int, c) 
@@ -959,7 +959,7 @@ extend Entity {
      * @returns entitas.Entity
      */
     removeText: func() -> This {
-        c := getText()
+        c := text as TextComponent
         removeComponent(Component Text as Int) 
         __textComponentPool push(c)
         this
@@ -968,8 +968,8 @@ extend Entity {
     /* Entity: Tint methods*/
 
     /** @type Tint */
-    getTint: func() -> TintComponent {
-        getComponent(Component Tint as Int) as TintComponent
+    tint : IComponent {
+        get { getComponent(Component Tint as Int) }
     }
     /** @type boolean */
     hasTint : Bool {
@@ -986,7 +986,7 @@ extend Entity {
      * @return entitas.Entity
      */
     addTint: func(r:Int,g:Int,b:Int,a:Int) -> This {
-        c := __tintComponentPool size > 0 ? __tintComponentPool pop() : TintComponent new()
+        c := __tintComponentPool empty?() ? TintComponent new() : __tintComponentPool pop()
         c r = r
         c g = g
         c b = b
@@ -1002,8 +1002,8 @@ extend Entity {
      * @return entitas.Entity
      */
     replaceTint: func(r:Int,g:Int,b:Int,a:Int) -> This {
-        previousComponent := this hasTint ? this getTint() : null
-        c := __tintComponentPool size > 0 ? __tintComponentPool pop() : TintComponent new()
+        previousComponent := this hasTint ? this tint as TintComponent : null
+        c := __tintComponentPool empty?() ? TintComponent new() : __tintComponentPool pop()
         c r = r
         c g = g
         c b = b
@@ -1017,7 +1017,7 @@ extend Entity {
      * @returns entitas.Entity
      */
     removeTint: func() -> This {
-        c := getTint()
+        c := tint as TintComponent
         removeComponent(Component Tint as Int) 
         __tintComponentPool push(c)
         this
@@ -1026,8 +1026,8 @@ extend Entity {
     /* Entity: Velocity methods*/
 
     /** @type Velocity */
-    getVelocity: func() -> VelocityComponent {
-        getComponent(Component Velocity as Int) as VelocityComponent
+    velocity : IComponent {
+        get { getComponent(Component Velocity as Int) }
     }
     /** @type boolean */
     hasVelocity : Bool {
@@ -1042,7 +1042,7 @@ extend Entity {
      * @return entitas.Entity
      */
     addVelocity: func(x:Double,y:Double) -> This {
-        c := __velocityComponentPool size > 0 ? __velocityComponentPool pop() : VelocityComponent new()
+        c := __velocityComponentPool empty?() ? VelocityComponent new() : __velocityComponentPool pop()
         c x = x
         c y = y
         addComponent(Component Velocity as Int, c)
@@ -1054,8 +1054,8 @@ extend Entity {
      * @return entitas.Entity
      */
     replaceVelocity: func(x:Double,y:Double) -> This {
-        previousComponent := this hasVelocity ? this getVelocity() : null
-        c := __velocityComponentPool size > 0 ? __velocityComponentPool pop() : VelocityComponent new()
+        previousComponent := this hasVelocity ? this velocity as VelocityComponent : null
+        c := __velocityComponentPool empty?() ? VelocityComponent new() : __velocityComponentPool pop()
         c x = x
         c y = y
         replaceComponent(Component Velocity as Int, c) 
@@ -1067,7 +1067,7 @@ extend Entity {
      * @returns entitas.Entity
      */
     removeVelocity: func() -> This {
-        c := getVelocity()
+        c := velocity as VelocityComponent
         removeComponent(Component Velocity as Int) 
         __velocityComponentPool push(c)
         this

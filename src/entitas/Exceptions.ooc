@@ -13,7 +13,7 @@ EntityAlreadyHasComponent: class extends Exception {
 }
 EntityDoesNotHaveComponent: class extends Exception {
     init: func(name: String, index: Int) {
-        super("Cannot remove %s at index %d: %s" format(name, index))
+        super("Component not found in %s at index %d: %s" format(name, index))
     }
 }
 EntityIsAlreadyReleased: class extends Exception {
@@ -22,8 +22,8 @@ EntityIsAlreadyReleased: class extends Exception {
     }
 }
 SingleEntityException: class extends Exception {
-    init: func(matcher: String) {
-        super("Single Entity Exception in : %s" format(matcher))
+    init: func(count: Int) {
+        super("Single Entity Exception found : %d" format(count))
     }
 }
 MatcherException: class extends Exception {

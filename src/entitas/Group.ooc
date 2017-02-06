@@ -183,7 +183,7 @@ Group: class {
                 return null
             else
                 // SingleEntityException new(_matcher toString()) throw()
-                SingleEntityException new("stuff") throw()
+                SingleEntityException new(c) throw()
         }
         _singleEntityCache
     }
@@ -205,9 +205,6 @@ Group: class {
                 s := World components[index-1] replaceAll("Component", "")
                 _toStringCache += s
             }
-            // for (index in _matcher getIndices())
-            //     _toStringCache += World components[index] replace("Component", "")
-            //_toStringCache = "Group(" + String joinv(",", sb) + ")"
         }
         if (_toStringCache == "") _toStringCache = "Unknown"
         _toStringCache

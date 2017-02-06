@@ -1,6 +1,8 @@
 import math
 import structs/ArrayList
 import structs/LinkedList
+import structs/List
+import structs/Stack
 
 import Entity
 import Exceptions
@@ -47,10 +49,11 @@ Entity: class {
     incEntities     : static Int = 64
     db_index        : static Int = 0
     _components     : static IComponent[]
+    _pools          : static Stack<IComponent>[]
 
     db_id           : Int = 0
     ic              : Int = 0
-    refCount       : Int = 0
+    refCount        : Int = 0
     _totalComponents: Int
     _componentCount : Int
     _toStringCache  : String
@@ -59,6 +62,11 @@ Entity: class {
     _componentsCache: IComponent[]
     _indiceCache    : Int[]
 
+
+    // __activeComponent = ActiveComponent new()
+    // __boundsComponentPool = Stack<BoundsComponent> new()
+    // for(i in 1..POOL_SIZE) 
+    //     __boundsComponentPool push(BoundsComponent new())
 
     /**
      * The basic game object  Everything is an entity with components that
@@ -127,7 +135,7 @@ Entity: class {
         _components[ic+index] = component
         _componentsCache = IComponent[0] new()
         _indiceCache = Int[0] new()
-        _toStringCache = ""
+        _toStringCache = null
         _onComponentAdded dispatch(this, index, component)
         this
     }    
@@ -142,8 +150,9 @@ Entity: class {
         if (!_isEnabled)
             EntityIsNotEnabled new("Cannot remove component!") throw()
 
-        if (!hasComponent(index))
-            EntityDoesNotHaveComponent new(_componentsEnum[index], index) throw()
+        if (!hasComponent(index)) {
+            EntityDoesNotHaveComponent new(name, index) throw()
+        }
 
         _replaceComponent(index, null)
         this
@@ -179,7 +188,7 @@ Entity: class {
             if (replacement == null) {
                 _components[ic+index] = null
                 _indiceCache = Int[0] new()
-                _toStringCache = ""
+                _toStringCache = null
                 _onComponentRemoved dispatch(this, index, previousComponent)
             } else {
                 _onComponentReplaced dispatch(this, index, previousComponent, replacement)
@@ -194,8 +203,9 @@ Entity: class {
      * @param entitas IComponent component
      */
     getComponent: func(index : Int) -> IComponent{
-        if (!hasComponent(index))
-            EntityDoesNotHaveComponent new(_componentsEnum[index], index) throw()
+        if (!hasComponent(index)) {
+            EntityDoesNotHaveComponent new(name, index) throw()
+        }
 
         _components[ic+index]
     }
@@ -225,16 +235,26 @@ Entity: class {
      */
     getComponentIndices: func() -> Int[] {
         if (_indiceCache length == 0) {
-            indices := Int[_componentCount] new()
+            indices := LinkedList<Int> new()
             index := 0
-            for (i in ic..ic+_componentCount-1) {
-                if (_components[i] != null)
-                    indices[ic-i] = index
+            for (i in ic..ic+_componentCount) {
+                if (_components[i] != null) {
+                    indices add(index)
+                }
                 index += 1
             }
-            _indiceCache = indices
+            _indiceCache = listToArray(indices)
         }
         _indiceCache
+    }
+
+    listToArray: static func(l : List<Int>) -> Int[] {
+        a := Int[l size] new()
+        for (i in 0..l size) {
+            index := l[i]
+            a[i] = index
+        }
+        a
     }
 
     /**
@@ -283,7 +303,7 @@ Entity: class {
      *
      */
     removeAllComponents: func() {
-        _toStringCache = ""
+        _toStringCache = null
         index := 0
         for (i in ic..ic+_componentCount-1) {
             if (_components[i] != null)
@@ -310,16 +330,19 @@ Entity: class {
      * @returns string
      */
     toString: func() -> String {
-        if (_toStringCache == "") {
+        if (_toStringCache == null) {
+            active := _isEnabled ? " active" : " inactive"
+            _toStringCache = name+" " + _id + active + " ("
             seperator := ", "
 
             components := getComponentIndices()
             lastSeperator := components length - 1
-            for (i in 0..lastSeperator) {
-                _toStringCache += _componentsEnum[components[i]] replaceAll("Component", "")
+            for (i in 0..components length) {
+                _toStringCache += _componentsEnum[components[i]-1] replaceAll("Component", "")
                 if (i < lastSeperator)
                     _toStringCache += seperator
             }
+            _toStringCache = _toStringCache + ")"
         }
         _toStringCache
     }

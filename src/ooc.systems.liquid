@@ -26,13 +26,9 @@ import Game
     world: World
 
     init: func(=game)
-
-
-{% for iface in interfaces %}
-{% case iface %}
+{% for iface in interfaces %}{% case iface %}
 {% when "IExecuteSystem" %}    execute: func(){}
 {% when "IInitializeSystem" %}    initialize: func(){}
-{% when "ISetWorld" %}    setWorld: func(=world){}
-{% endcase %}
-{% endfor %}
+{% when "ISetWorld" %}    setWorld: func(=world)
+{% endcase %}{% endfor %}
 }

@@ -21,7 +21,7 @@ import Components
 import Entities
 import Game
 
-MovementSystem : class extends ISystem implements  ISetWorld, IInitializeSystem, IExecuteSystem {
+DestroySystem : class extends ISystem implements  ISetWorld,  IExecuteSystem,  IInitializeSystem {
     game : Game
     world: World
     group: Group
@@ -29,24 +29,20 @@ MovementSystem : class extends ISystem implements  ISetWorld, IInitializeSystem,
     init: func(=game)
     setWorld: func(=world)
 
-    initialize: func() {
-        group = world getGroup(Matcher matchAllOf(Component Velocity))
+    initialize: func(){
+        group = world getGroup(Matcher matchAllOf(Component Destroy))
     }
 
+    /* remove the entity from the games sprites list */
     execute: func(){
         entities := group getEntities()
         delta := game delta
 
         for (i in 0..entities length) {
             e := entities[i]
-            if (e isEnabled) {
-                position := e position as PositionComponent
-                velocity := e velocity as VelocityComponent
-
-                position x = position x + velocity x * delta
-                position y = position y + velocity y * delta
-
-            }
+            game sprites remove(e)
+            world destroyEntity(e)
         }
     }
+
 }

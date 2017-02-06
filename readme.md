@@ -1,7 +1,13 @@
 # ShmupWarz
 
-This will work. OOC allows adding extension method to existing object classes.
-That works well with the entitas architecture.
+OC allows adding extension method to existing object classes.
+
+One aspect not working is that I cannot cast to an external type from an extend.
+So I need to unpack components to work with them:
+
+        position := e position as PositionComponent
+        resource := e resource as ResourceComponent
+        bounds := e bounds as BoundsComponent
 
 
 Starting to sound like ground hog day...

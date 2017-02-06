@@ -47,7 +47,7 @@ Matcher: class implements IAllOfMatcher, IAnyOfMatcher, INoneOfMatcher {
     _noneOfIndices      : Int[]
 
     getId: func() -> String {
-        ""
+        _id
     }
     getIndices: func() -> Int[] {
         mergeIndices()
@@ -205,12 +205,32 @@ Matcher: class implements IAllOfMatcher, IAnyOfMatcher, INoneOfMatcher {
         }
         listToArray(indices)
     }
-    /**
+    /*
      * Matches allOf the components/indices specified
      * @params Array<entitas IMatcher>|Array<number> args
      * @returns entitas Matcher
      */
-    matchAllOf: static func(args : Int[]) -> Matcher {
+     //
+
+    matchAllOf: static func ~vararg(args : ...) -> Matcher {
+        a := LinkedList<Int> new()
+        args each(|arg|
+            match arg {
+                case i : Int => a add(i) // pass
+                case => // force int
+                    i := arg as Int
+                    // check if it has an int value in range of the enum
+                    if (i >= 0 && i <World components length) {
+                        a add(arg as Int)
+                    } else {
+                        MatcherException new("unsupprted type in vararg") throw()
+                    }
+            }
+        )
+        matchAllOf~ary(listToArray(a))    
+    }
+
+    matchAllOf: static func ~ary(args : Int[]) -> Matcher {
         matcher := Matcher new()
         matcher _allOfIndices = distinctIndices(args)
         matcher

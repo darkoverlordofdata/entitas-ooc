@@ -19,9 +19,11 @@ import entitas/events/WorldChanged
 import entitas/events/ComponentReplaced
 import Systems/CollisionSystem
 import Systems/ColorTweenSystem
+import Systems/DestroySystem
 import Systems/EntitySpawningTimerSystem
 import Systems/ExpiringSystem
 import Systems/HealthRenderSystem
+import Systems/HudRenderSystem
 import Systems/MovementSystem
 import Systems/PlayerInputSystem
 import Systems/RemoveOffscreenShipsSystem
@@ -53,6 +55,7 @@ Input: enum {
     QUIT        = 5
 }
 
+
 Game: class {
     font: TTFFont
     rawFont: RWops
@@ -61,8 +64,9 @@ Game: class {
     mouse: Point2d 
     inputs: Bool[]
     world: World
-    player: PlayerInputSystem
+    //player: PlayerInputSystem
     sprites: LinkedList<Entity>
+    delta: Double
 
     FONT_TTF:String = "/home/bruce/ooc/demo/res/fonts/OpenDyslexic-Bold.otf"
 
@@ -75,8 +79,9 @@ Game: class {
         inputs = Bool[6] new()
         initPools()
         world = World new(components) 
+        world add(ViewManagerSystem new(this))
         world add(MovementSystem new(this))
-        world add(player = PlayerInputSystem new(this))
+        world add(PlayerInputSystem new(this))
         world add(SoundEffectSystem new(this))
         world add(CollisionSystem new(this))
         world add(ExpiringSystem new(this))
@@ -84,26 +89,36 @@ Game: class {
         world add(ColorTweenSystem new(this))
         world add(ScaleTweenSystem new(this))
         world add(RemoveOffscreenShipsSystem new(this))
-        world add(ViewManagerSystem new(this))
         world add(RenderPositionSystem new(this))
-        // world add(HealthRenderSystem(this))
-        // world add(HudRenderSystem new(this))
-        // world add(DestroySystem new(this))
+        world add(HealthRenderSystem new(this))
+        world add(HudRenderSystem new(this))
+        world add(DestroySystem new(this))
         world initialize()
         world createBackground(this)
-        // world createPlayer()
+        world createPlayer(this)
         
     }
 
     drawSprite: func(e: Entity) {
-        w := (e hasScale != 0) ? e getBounds() width * e getScale() x : e getBounds() width
-        h := (e hasScale != 0) ? e getBounds() height * e getScale() y : e getBounds() height
-        x := e getPosition() x - w / 2
-        y := e getPosition() y - h / 2
-        if (e hasTint) {
-            SDL setTextureColorMod(e getResource() sprite, e getTint() r, e getTint() g, e getTint() b)
+        position := e position as PositionComponent
+        resource := e resource as ResourceComponent
+        bounds := e bounds as BoundsComponent
+
+        (w, h) := (0.0, 0.0)
+        if (e hasScale) {
+            scale := e scale as ScaleComponent
+            (w, h) = (bounds width * scale x, bounds height * scale y)
+        } else {
+            (w, h) = (bounds width, bounds height)
         }
-        SDL renderCopy(renderer, e getResource() sprite, null, (x, y, w, h) as SdlRect&)
+
+        x := (resource bgd) ? position x - w / 2 : position x
+        y := (resource bgd) ? position y - h / 2 : position y
+        if (e hasTint) {
+            tint := e tint as TintComponent
+            SDL setTextureColorMod(resource sprite, tint r, tint g, tint b)
+        }
+        SDL renderCopy(renderer, resource sprite, null, (x, y, w, h) as SdlRect&)
         
     }
 
@@ -111,16 +126,18 @@ Game: class {
         SDL setRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xff)
 		SDL renderClear(renderer)
         for (i in 0..sprites size) {
-            drawSprite(sprites[i])            
+            drawSprite(sprites[i])   
         }
 
         text := font renderUTF8Solid(fps toString(), (0xff, 0xff, 0xff, 0xff) as SdlColor)
         texture := SDL createTextureFromSurface(renderer, text)
         SDL renderCopy(renderer, texture, null, (5, 5, 56, 28) as SdlRect&)
+
 		SDL renderPresent(renderer)
     }
 
     update: func(delta: Double) {
+        this delta = delta
         world execute()
     }
 

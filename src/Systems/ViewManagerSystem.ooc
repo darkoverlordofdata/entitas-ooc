@@ -27,15 +27,12 @@ ViewManagerSystem : class extends ISystem implements  ISetWorld,  IInitializeSys
     group: Group
 
     init: func(=game)
-
-    setWorld: func(=world){
-        group = world getGroup(Matcher matchAllOf([Component Active as Int]))
-    }
-
+    setWorld: func(=world)
 
     initialize: func(){
+        group = world getGroup(Matcher matchAllOf(Component Active))
         group onEntityAdded add(func(g : Group, e : Entity, index: Int, component : IComponent) {
-            "%s added" printfln(group.toString())
+            //"%s added to %s" printfln(e name, group toString())
 
             scale : ScaleComponent
             layer : LayerComponent

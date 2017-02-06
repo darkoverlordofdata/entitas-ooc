@@ -39,7 +39,7 @@ IAllOfMatcher: interface {
 
 
 ISystem: abstract class  {
-    setWorld: func(world: World){}
+    setWorld: func(world: World)
     initialize: func(){}
     execute: func(){}
 }
