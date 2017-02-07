@@ -202,10 +202,11 @@ World: class {
 
         if (entity refCount == 1) {
             entity onEntityReleased remove(entity onEntityReleasedId)
-            if (_reusableEntities indexOf(entity) < 0) {
-                // TODO - this shouldn't be doubled up like this
-                _reusableEntities push(entity)
-            }
+            // if (_reusableEntities indexOf(entity) < 0) {
+            //     // TODO - this shouldn't be doubled up like this
+            //     _reusableEntities push(entity)
+            // }
+            _reusableEntities push(entity)
         } else {
             _retainedEntities[entity id] = entity
         }

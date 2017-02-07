@@ -205,7 +205,7 @@ extend World {
         y := SCREEN_HEIGHT/2 - 50
         
         this createCore(game, "enemy3", x, y
-            ) addBounds(0, 0
+            ) setEnemy(true
             ) addHealth(60, 60
             ) addVelocity(0, 20
             ) setActive(true)
