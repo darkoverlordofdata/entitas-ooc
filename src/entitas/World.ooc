@@ -131,12 +131,14 @@ World: class {
          * @param entitas.IComponent component
          */
         updateGroupsComponentAddedOrRemoved = func(entity : Entity, index : Int, component : IComponent) {
+
             if (index+1 <= _groupsForIndex size) {
                 groups := _groupsForIndex[index]
                 if (groups != null) {
                     try {
-                        for (group in groups)
+                        for (group in groups) {
                             group handleEntity(entity, index, component)
+                        }
                     } catch (e : Exception) {
                         assert(false)
                     }
@@ -169,7 +171,10 @@ World: class {
 
             entity onEntityReleased remove(entity onEntityReleasedId)
             _retainedEntities remove(entity id)
-            _reusableEntities push(entity)
+            if (_reusableEntities indexOf(entity) < 0) {
+                // TODO - this shouldn't be doubled up like this
+                _reusableEntities push(entity)
+            }
         }
 
 
@@ -188,17 +193,19 @@ World: class {
     destroyEntity: func(entity : Entity) {
         if (!_entities contains?(entity id))
             WorldDoesNotContainEntity new ("Could not destroy entity!") throw()
-
+        
         _entities remove(entity id)
         _entitiesCache = Entity[0] new()
         _onEntityWillBeDestroyed dispatch(this, entity)
         entity destroy()
-
         _onEntityDestroyed dispatch(this, entity)
 
         if (entity refCount == 1) {
             entity onEntityReleased remove(entity onEntityReleasedId)
-            _reusableEntities push(entity)
+            if (_reusableEntities indexOf(entity) < 0) {
+                // TODO - this shouldn't be doubled up like this
+                _reusableEntities push(entity)
+            }
         } else {
             _retainedEntities[entity id] = entity
         }
@@ -299,7 +306,7 @@ World: class {
 
             entities := getEntities()
             if (entities length > 0) {
-                for (i in 0..entities length-1)
+                for (i in 0..entities length)
                     group handleEntitySilently(entities[i])
             }
 

@@ -8,7 +8,7 @@ EntityIsNotEnabled: class extends Exception {
 }
 EntityAlreadyHasComponent: class extends Exception {
     init: func(name: String, index: Int) {
-        super("Cannot add %s at index %d" format(name, index))
+        super("Cannot add %d to %s" format(index, name))
     }
 }
 EntityDoesNotHaveComponent: class extends Exception {

@@ -63,11 +63,6 @@ Entity: class {
     _indiceCache    : Int[]
 
 
-    // __activeComponent = ActiveComponent new()
-    // __boundsComponentPool = Stack<BoundsComponent> new()
-    // for(i in 1..POOL_SIZE) 
-    //     __boundsComponentPool push(BoundsComponent new())
-
     /**
      * The basic game object  Everything is an entity with components that
      * are added / removed as needed 
@@ -129,8 +124,9 @@ Entity: class {
         if (!_isEnabled)
             EntityIsNotEnabled new("Cannot add component!") throw()
 
-        if (hasComponent(index))
-            EntityAlreadyHasComponent new(_componentsEnum[index], index) throw()
+        if (hasComponent(index)) {
+            EntityAlreadyHasComponent new(toString(), index) throw()
+        }
 
         _components[ic+index] = component
         _componentsCache = IComponent[0] new()
@@ -305,7 +301,7 @@ Entity: class {
     removeAllComponents: func() {
         _toStringCache = null
         index := 0
-        for (i in ic..ic+_componentCount-1) {
+        for (i in ic..ic+_componentCount) {
             if (_components[i] != null)
                 _replaceComponent(index, null)
             index += 1
@@ -322,6 +318,7 @@ Entity: class {
         _onComponentReplaced clear()
         _onComponentRemoved clear()
         _isEnabled = false
+        _toStringCache = null
     }
     
     /**
@@ -332,7 +329,7 @@ Entity: class {
     toString: func() -> String {
         if (_toStringCache == null) {
             active := _isEnabled ? " active" : " inactive"
-            _toStringCache = name+" " + _id + active + " ("
+            _toStringCache = name+" " + _id + active + " " + db_id + ", " + ic +" ("
             seperator := ", "
 
             components := getComponentIndices()

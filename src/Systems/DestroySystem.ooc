@@ -40,8 +40,8 @@ DestroySystem : class extends ISystem implements  ISetWorld,  IExecuteSystem,  I
 
         for (i in 0..entities length) {
             e := entities[i]
-            game sprites remove(e)
             world destroyEntity(e)
+            game sprites remove(e)
         }
     }
 

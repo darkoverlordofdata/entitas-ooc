@@ -194,7 +194,7 @@ Matcher: class implements IAllOfMatcher, IAnyOfMatcher, INoneOfMatcher {
     merge: static func(matchers : Matcher[]) -> Int[] {
         indices := LinkedList<Int> new()
 
-        for (i in 0..matchers length-1) {
+        for (i in 0..matchers length) {
             matcher := matchers[i]
             if (matcher getIndices() length != 1)
                 //raise new Exception ECS("MatcherException - %s", matcher toString())

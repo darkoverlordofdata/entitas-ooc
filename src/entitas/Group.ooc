@@ -122,7 +122,7 @@ Group: class {
             _entitiesCache = Entity[0] new()
             _singleEntityCache = null
             entity release()
-        }
+        } 
     }
 
     /**
@@ -138,7 +138,7 @@ Group: class {
             _singleEntityCache = null
             _onEntityRemoved dispatch(this, entity, index, component)
             entity release()
-        }
+        } 
     }
     /**
      * Check if group has this entity
