@@ -26,11 +26,7 @@ RemoveOffscreenShipsSystem : class extends ISystem implements  ISetWorld,  IExec
     world: World
 
     init: func(=game)
-
-
-
     setWorld: func(=world){}
-
 
     execute: func(){}
 

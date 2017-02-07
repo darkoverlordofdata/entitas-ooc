@@ -32,7 +32,6 @@ EntitySpawningTimerSystem : class extends ISystem implements  ISetWorld,  IExecu
     game : Game
     world: World
 
-
     Timer1: Double = 2.0
     Timer2: Double = 7.0
     Timer3: Double = 13.0
@@ -44,6 +43,7 @@ EntitySpawningTimerSystem : class extends ISystem implements  ISetWorld,  IExecu
 
     init: func(=game)
     setWorld: func(=world){}
+
 
     initialize: func(){}
 

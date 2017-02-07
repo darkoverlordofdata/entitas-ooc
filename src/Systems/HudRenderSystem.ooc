@@ -27,6 +27,7 @@ HudRenderSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem, 
 
     init: func(=game)
     setWorld: func(=world)
+
     execute: func(){}
     initialize: func(){}
 

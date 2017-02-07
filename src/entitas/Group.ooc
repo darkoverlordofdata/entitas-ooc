@@ -27,6 +27,8 @@ Group: class {
     onEntityRemoved: GroupChanged { get { _onEntityRemoved } }
     onEntityUpdated: GroupUpdated { get { _onEntityUpdated } }
 
+    entities: ArrayList<Entity> { get { getEntities() as ArrayList<Entity> }}
+
     count: Int { get { _entities size } }
     matcher: Matcher { get { _matcher } }
 

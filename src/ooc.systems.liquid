@@ -24,6 +24,7 @@ import Game
 {{ name }} : class implements {% for iface in interfaces %} {{ iface }}, {% endfor %}ISystem {
     game : Game
     world: World
+    name: String = "{{ name }}"
 
     init: func(=game)
 {% for iface in interfaces %}{% case iface %}

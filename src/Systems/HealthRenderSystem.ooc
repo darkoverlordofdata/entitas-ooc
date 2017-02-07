@@ -24,13 +24,9 @@ import Game
 HealthRenderSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem,  IInitializeSystem {
     game : Game
     world: World
-
+    
     init: func(=game)
-
-
-
     setWorld: func(=world){}
-
 
     execute: func(){}
 

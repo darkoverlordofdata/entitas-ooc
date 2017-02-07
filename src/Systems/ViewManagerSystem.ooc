@@ -24,14 +24,15 @@ import Game
 ViewManagerSystem : class extends ISystem implements  ISetWorld,  IInitializeSystem {
     game : Game
     world: World
-    group: Group
+    active: Group
 
     init: func(=game)
     setWorld: func(=world)
 
+
     initialize: func(){
-        group = world getGroup(Matcher matchAllOf(Component Active))
-        group onEntityAdded add(func(g : Group, e : Entity, index: Int, component : IComponent) {
+        active = world getGroup(Matcher matchAllOf(Component Active))
+        active onEntityAdded add(func(g : Group, e : Entity, index: Int, component : IComponent) {
             //"%s added to %s" printfln(e name, group toString())
 
             scale : ScaleComponent
@@ -54,7 +55,6 @@ ViewManagerSystem : class extends ISystem implements  ISetWorld,  IInitializeSys
             if (e hasTint) {
 
             }
-            
         })
     }
 }

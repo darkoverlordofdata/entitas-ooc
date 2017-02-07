@@ -26,11 +26,7 @@ SoundEffectSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem
     world: World
 
     init: func(=game)
-
-
-
     setWorld: func(=world){}
-
 
     execute: func(){}
 

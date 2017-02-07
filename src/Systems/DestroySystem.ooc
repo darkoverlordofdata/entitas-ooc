@@ -24,22 +24,20 @@ import Game
 DestroySystem : class extends ISystem implements  ISetWorld,  IExecuteSystem,  IInitializeSystem {
     game : Game
     world: World
-    group: Group
+    terminate: Group
 
     init: func(=game)
     setWorld: func(=world)
 
     initialize: func(){
-        group = world getGroup(Matcher matchAllOf(Component Destroy))
+        terminate = world getGroup(Matcher matchAllOf(Component Destroy))
     }
 
     /* remove the entity from the games sprites list */
     execute: func(){
-        entities := group getEntities()
         delta := game delta
 
-        for (i in 0..entities length) {
-            e := entities[i]
+        for (e in terminate entities) {
             world destroyEntity(e)
             game sprites remove(e)
         }

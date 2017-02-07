@@ -24,18 +24,20 @@ import Game
 PlayerInputSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem,  IInitializeSystem {
     game : Game
     world: World
-    group: Group
+    player: Group
     FireRate : Double = 0.1
     timeToFire: Double
+    name: String = "PlayerInputSystem"
 
     init: func(=game)
     setWorld: func(=world){}
+
     initialize: func(){
-        group = world getGroup(Matcher matchAllOf(Component Player))
+        player = world getGroup(Matcher matchAllOf(Component Player))
     }
 
     execute: func(){
-        e := group getSingleEntity()
+        e := player getSingleEntity()
         position := e position as PositionComponent
 
         position x = game mouse x

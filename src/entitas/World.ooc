@@ -168,7 +168,7 @@ World: class {
             if (entity isEnabled)
                 /*raise new Exception EntityIsNotDestroyedException("Cannot release entity ")*/
                 return
-
+            return
             entity onEntityReleased remove(entity onEntityReleasedId)
             _retainedEntities remove(entity id)
             if (_reusableEntities indexOf(entity) < 0) {
@@ -287,8 +287,15 @@ World: class {
      * Execute sustems
      */
     execute: func() {
-        for (sys in _executeSystems)
-            sys execute()
+        s := 0
+        for (sys in _executeSystems) {
+            try {
+                sys execute()
+            } catch (e: Exception) {
+                "Error in System %d:\n%s" printfln(s, e message)
+            }
+            s += 1
+        }
     }
 
     /**

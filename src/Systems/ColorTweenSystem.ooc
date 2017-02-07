@@ -24,8 +24,8 @@ import Game
 ColorTweenSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem {
     game : Game
     world: World
-
     init: func(=game)
+
 
 
 
