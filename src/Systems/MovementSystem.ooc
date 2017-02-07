@@ -37,13 +37,25 @@ MovementSystem : class extends ISystem implements  ISetWorld, IInitializeSystem,
     execute: func(){
         delta := game delta
 
-        for (e in group entities) {
-            if (e isEnabled) {
-                position := e position as PositionComponent
-                velocity := e velocity as VelocityComponent
+        // for (e in group entities) {
+        entities := group getEntities()
+        for (e in 0..entities length) {
+            if (e >= entities length) {
+                continue
+            }
+            entity := entities[e]
+            if (entity == null) {
+                continue
+            }
+            if (entity isEnabled) {
+                position := entity position as PositionComponent
+                velocity := entity velocity as VelocityComponent
 
-                position x = position x + velocity x * delta
-                position y = position y + velocity y * delta
+                x := position x + velocity x * delta
+                y := position y + velocity y * delta
+
+                position x = x
+                position y = y
 
             }
         }

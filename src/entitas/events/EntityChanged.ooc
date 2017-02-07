@@ -42,8 +42,21 @@ EntityChanged : class {
     }
 
     dispatch: func(e : Entity, index : Int, component : IComponent) {
-        for (listener in _listeners)
+        for (l in 0.._listeners size) {
+            if (l >= _listeners size) {
+                "EntityChangedListener is short" println()
+                continue
+            }
+            listener := _listeners[l]
+            if (listener == null) {
+                "EntityChangedListener is null" println()
+                continue
+            }
             listener event(e, index, component)
+        }
+        
+        // for (listener in _listeners)
+        //     listener event(e, index, component)
     }
 
 }

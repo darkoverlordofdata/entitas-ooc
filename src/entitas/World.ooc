@@ -119,6 +119,7 @@ World: class {
      * @returns entitas Entity
      */
     createEntity: func(name : String) -> Entity {
+        // "world create entity %d" printfln(_reusableEntities size)
         entity := _reusableEntities size > 0 ? _reusableEntities pop() : Entity new(_componentsEnum, _totalComponents) 
         _creationIndex += 1
         entity initialize(name, uidgen(), _creationIndex)
@@ -155,9 +156,16 @@ World: class {
         updateGroupsComponentReplaced = func(entity : Entity, index : Int, previousComponent : IComponent, newComponent : IComponent) {
             if (index+1 <= _groupsForIndex size) {
                 groups := _groupsForIndex[index]
-                if (groups != null)
-                    for (group in groups)
-                        group updateEntity(entity, index, previousComponent, newComponent)
+                if (groups != null) {
+                    try {
+                        for (group in groups)
+                            group updateEntity(entity, index, previousComponent, newComponent)
+
+                    } catch (ex: Exception) {
+                        assert(false)
+                    }
+                }
+
             }
         }
         
@@ -168,10 +176,11 @@ World: class {
             if (entity isEnabled)
                 /*raise new Exception EntityIsNotDestroyedException("Cannot release entity ")*/
                 return
-            return
+            // return
             entity onEntityReleased remove(entity onEntityReleasedId)
             _retainedEntities remove(entity id)
             if (_reusableEntities indexOf(entity) < 0) {
+                "DOUBLE" print()
                 // TODO - this shouldn't be doubled up like this
                 _reusableEntities push(entity)
             }
@@ -292,7 +301,7 @@ World: class {
             try {
                 sys execute()
             } catch (e: Exception) {
-                "Error in System %d:\n%s" printfln(s, e message)
+                //"Error in System %d:\n%s" printfln(s, e message)
             }
             s += 1
         }

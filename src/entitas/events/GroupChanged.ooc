@@ -42,8 +42,20 @@ GroupChanged : class {
     }
 
     dispatch: func(g : Group, e : Entity, index: Int, component : IComponent) {
-        for (listener in _listeners)
+        for (l in 0.._listeners size) {
+            if (l >= _listeners size) {
+                "GroupChangedListener is short" println()
+                continue
+            }
+            listener := _listeners[l]
+            if (listener == null) {
+                "GroupChangedListener is null" println()
+                continue
+            }
             listener event(g, e, index, component)
+        }
+        // for (listener in _listeners)
+        //     listener event(g, e, index, component)
     }
 
 }

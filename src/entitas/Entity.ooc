@@ -45,7 +45,7 @@ Entity: class {
 
 
     first           : static Bool = true
-    maxEntities     : static Int = 128
+    maxEntities     : static Int = 256
     incEntities     : static Int = 64
     db_index        : static Int = 0
     _components     : static IComponent[]
@@ -80,10 +80,11 @@ Entity: class {
             first = false
         }
 
-        // if (db_index >= maxEntities) {
-        //     maxEntities += incEntities
-        //     _components resize(_componentCount * maxEntities)
-        // }
+        if (db_index >= maxEntities) {
+            //maxEntities += incEntities
+            //_components resize(_componentCount * maxEntities)
+            "WARNING...%d" printfln(World instance _reusableEntities size)
+        }
 
         db_id = db_index += 1
         ic = db_id * _componentCount
@@ -95,6 +96,7 @@ Entity: class {
         _indiceCache = Int[totalComponents] new()
         _componentsEnum = componentsEnum
         _world = World instance
+        // "new entity %d %d" printfln(db_id, ic) 
         
     }
 

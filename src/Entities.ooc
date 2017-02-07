@@ -132,6 +132,7 @@ extend World {
     createBullet: func(game: Game, x : Double, y : Double) -> Entity {
         this createCore(game, "bullet", x, y
             ) setBullet(true
+            ) addHealth(2, 2
             ) addVelocity(0, -800
             ) addTint(0xAD, 0xFF, 0x2F, 255
             ) addExpires(1

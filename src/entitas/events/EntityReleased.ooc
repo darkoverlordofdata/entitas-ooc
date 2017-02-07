@@ -42,8 +42,20 @@ EntityReleased : class {
     }
 
     dispatch: func(e : Entity) {
-        for (listener in _listeners)
+        for (l in 0.._listeners size) {
+            if (l >= _listeners size) {
+                "EntityReleasedListener is short" println()
+                continue
+            }
+            listener := _listeners[l]
+            if (listener == null) {
+                "EntityReleasedListener is null" println()
+                continue
+            }
             listener event(e)
+        }
+        // for (listener in _listeners)
+        //     listener event(e)
     }
 
 }

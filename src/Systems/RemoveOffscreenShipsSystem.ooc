@@ -21,14 +21,58 @@ import Components
 import Entities
 import Game
 
-RemoveOffscreenShipsSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem {
+windowSize := (0, 0, 640, 720) as SdlRect 	
+
+RemoveOffscreenShipsSystem : class extends ISystem implements  ISetWorld, IInitializeSystem, IExecuteSystem {
     game : Game
     world: World
+    other: Group
 
     init: func(=game)
     setWorld: func(=world){}
 
-    execute: func(){}
+    initialize: func(){
+        other = world getGroup(Matcher matchAllOf(Component Velocity))
+    }
+
+    execute: func(){
+        for (entity in other entities) {
+        // entities := other getEntities()
+        // for (e in 0..entities length) {
+        //     if (e >= entities length) {
+        //         continue
+        //     }
+        //     entity := entities[e]
+        //     if (entity == null) {
+        //         continue
+        //     }
+            if (entity isPlayer) continue
+            
+            position := entity position as PositionComponent
+
+            if (position y > windowSize h) {
+                entity setDestroy(true)
+                continue
+            }
+
+            if (position y < 0) {
+                entity setDestroy(true)
+                continue
+            }
+
+            if (position x > windowSize w) {
+                entity setDestroy(true)
+                continue
+            }
+
+            if (position x < 0) {
+                entity setDestroy(true)
+                continue
+            }
+        }
+
+            // if (e position y > windowSize h) e active = false
+    }
 
 
 }

@@ -79,6 +79,7 @@ Game: class {
         inputs = Bool[6] new()
         initPools()
         world = World new(components) 
+        world add(DestroySystem new(this))
         world add(ViewManagerSystem new(this))
         world add(MovementSystem new(this))
         world add(PlayerInputSystem new(this))
@@ -92,7 +93,6 @@ Game: class {
         world add(RenderPositionSystem new(this))
         world add(HealthRenderSystem new(this))
         world add(HudRenderSystem new(this))
-        world add(DestroySystem new(this))
         world initialize()
         world createBackground(this)
         world createPlayer(this)
@@ -126,7 +126,11 @@ Game: class {
         SDL setRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xff)
 		SDL renderClear(renderer)
         for (i in 0..sprites size) {
-            drawSprite(sprites[i])   
+            if (i >= sprites size) {
+                continue
+            }
+            sprite := sprites[i]
+            if (sprite != null) drawSprite(sprite)   
         }
 
         text := font renderUTF8Solid(fps toString(), (0xff, 0xff, 0xff, 0xff) as SdlColor)

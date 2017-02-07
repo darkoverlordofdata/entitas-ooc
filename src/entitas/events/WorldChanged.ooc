@@ -43,8 +43,20 @@ WorldChanged : class {
     }
 
     dispatch: func(w : World, e : Entity) {
-        for (listener in _listeners)
+        for (l in 0.._listeners size) {
+            if (l >= _listeners size) {
+                "WorldChangedListener is short" println()
+                continue
+            }
+            listener := _listeners[l]
+            if (listener == null) {
+                "WorldChangedListener is null" println()
+                continue
+            }
             listener event(w, e)
+        }
+        // for (listener in _listeners)
+        //     listener event(w, e)
     }
 
 }

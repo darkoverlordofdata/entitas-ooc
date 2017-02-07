@@ -43,8 +43,20 @@ GroupUpdated : class {
     }
 
     dispatch: func(g : Group, e : Entity, index: Int, component : IComponent, replacement : IComponent) {
-        for (listener in _listeners)
+        for (l in 0.._listeners size) {
+            if (l >= _listeners size) {
+                "GroupUpdatedListener is short" println()
+                continue
+            }
+            listener := _listeners[l]
+            if (listener == null) {
+                "GroupUpdatedListener is null" println()
+                continue
+            }
             listener event(g, e, index, component, replacement)
+        }
+        // for (listener in _listeners)
+        //     listener event(g, e, index, component, replacement)
     }
 
 }

@@ -43,8 +43,20 @@ GroupsChanged : class {
     }
 
     dispatch: func(w : World, g : Group) {
-        for (listener in _listeners)
+        for (l in 0.._listeners size) {
+            if (l >= _listeners size) {
+                "GroupsChangedListener is short" println()
+                continue
+            }
+            listener := _listeners[l]
+            if (listener == null) {
+                "GroupsChangedListener is null" println()
+                continue
+            }
             listener event(w, g)
+        }
+        // for (listener in _listeners)
+        //     listener event(w, g)
     }
 
 }
