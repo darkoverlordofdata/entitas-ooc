@@ -36,15 +36,16 @@ ExpiringSystem : class extends ISystem implements  ISetWorld, IInitializeSystem,
     execute: func(){
         delta := game delta
 
-        entities := expired getEntities()
-        for (e in 0..entities length) {
-            if (e >= entities length) {
-                continue
-            }
-            entity := entities[e]
-            if (entity == null) {
-                continue
-            }
+        for (entity in expired entities) {
+        // entities := expired getEntities()
+        // for (e in 0..entities length) {
+        //     if (e >= entities length) {
+        //         continue
+        //     }
+        //     entity := entities[e]
+        //     if (entity == null) {
+        //         continue
+        //     }
 
             expires := entity expires as ExpiresComponent
             expires delay = expires delay - delta

@@ -301,7 +301,7 @@ World: class {
             try {
                 sys execute()
             } catch (e: Exception) {
-                //"Error in System %d:\n%s" printfln(s, e message)
+                "Error in System %d:\n%s" printfln(s, e message)
             }
             s += 1
         }

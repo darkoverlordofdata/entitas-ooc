@@ -40,34 +40,34 @@ CollisionSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem, 
 
     execute: func(){
 
-        enemies := enemyGroup getEntities()
-        bullets := bulletGroup getEntities()
+        // enemies := enemyGroup getEntities()
+        // bullets := bulletGroup getEntities()
 
-        for (e in 0..enemies length) {
-            if (e >= enemies length) {
-                continue
-            }
-            enemy := enemies[e]
-            if (enemy == null) {
-                continue
-            }
-            for (b in 0..bullets length) {
-                if (b >= bullets length) {
-                    continue
-                }
-                bullet := bullets[b]
-                if (bullet == null) {
-                    continue
-                }
+        // for (e in 0..enemies length) {
+        //     if (e >= enemies length) {
+        //         continue
+        //     }
+        //     enemy := enemies[e]
+        //     if (enemy == null) {
+        //         continue
+        //     }
+        //     for (b in 0..bullets length) {
+        //         if (b >= bullets length) {
+        //             continue
+        //         }
+        //         bullet := bullets[b]
+        //         if (bullet == null) {
+        //             continue
+        //         }
         //     }
         // }
 
-        // for (enemy in enemyGroup entities) {
-        //     for (bullet in bulletGroup entities) {
-                if (!bullet hasBounds) continue
-                if (!bullet hasPosition) continue
-                if (!enemy hasBounds) continue
-                if (!enemy hasPosition) continue
+        for (enemy in enemyGroup entities) {
+            for (bullet in bulletGroup entities) {
+                // if (!bullet hasBounds) continue
+                // if (!bullet hasPosition) continue
+                // if (!enemy hasBounds) continue
+                // if (!enemy hasPosition) continue
                 ep := enemy position as PositionComponent
                 eb := enemy bounds as BoundsComponent
                 bp := bullet position as PositionComponent
@@ -93,9 +93,9 @@ CollisionSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem, 
     }
 
     handleCollision: func(enemy: Entity, bullet: Entity) {
-        if (!bullet hasBounds) return 
-        if (!bullet hasHealth) return
-        if (!enemy hasHealth) return
+        // if (!bullet hasBounds) return 
+        // if (!bullet hasHealth) return
+        // if (!enemy hasHealth) return
         // if (!bullet hasHealth) return
         // "Bang!" print()
         bp := bullet position as PositionComponent
@@ -108,6 +108,7 @@ CollisionSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem, 
         if (eh maximumHealth != 0) {
             eh health -= bh health 
             if (eh health <= 0) {
+                if (enemy isDestroy) return
                 world createExplosion(game, bp x, bp y)
                 enemy setDestroy(true)
             }

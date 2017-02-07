@@ -47,6 +47,7 @@ RemoveOffscreenShipsSystem : class extends ISystem implements  ISetWorld, IIniti
         //         continue
         //     }
             if (entity isPlayer) continue
+            if (entity isDestroy) continue
             
             position := entity position as PositionComponent
 

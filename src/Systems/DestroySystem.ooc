@@ -37,15 +37,16 @@ DestroySystem : class extends ISystem implements  ISetWorld,  IExecuteSystem,  I
     execute: func(){
         delta := game delta
 
-        entities := terminate getEntities()
-        for (e in 0..entities length) {
-            if (e >= entities length) {
-                continue
-            }
-            entity := entities[e]
-            if (entity == null) {
-                continue
-            }
+        for (entity in terminate entities) {
+        // entities := terminate getEntities()
+        // for (e in 0..entities length) {
+        //     if (e >= entities length) {
+        //         continue
+        //     }
+        //     entity := entities[e]
+        //     if (entity == null) {
+        //         continue
+        //     }
             world destroyEntity(entity)
             game sprites remove(entity)
             
