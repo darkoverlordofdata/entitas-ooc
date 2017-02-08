@@ -56,37 +56,47 @@ main: func (argc: Int, argv: CString*) {
 	frame := 0
 	fps := 60
 
-	t1 := 0
-	t2 := 0
+	t1 := 0.0
+	t2 := 0.0
 	k := 0
+	f := 0
 
 	while (!game inputs[Input QUIT]) {
-		try {
+		// try {
 
 			game handleEvents()
 
 			mark2 = Time microsec() as Double / 1000000
 			delta = mark2 - mark1
-			if (delta < 0) {
-				delta = delta + 1.0
-				fps = ceil(1.0/delta)
+			if (delta < 0) delta = delta + 1.0
+
+			t1 = Time microsec() as Double / 1000000
+			game update(delta)
+			t1 = (Time microsec()  as Double / 1000000) - t1
+			if (t1 < 0) t1 = t1 + 1.0
+			k = k + 1
+
+			if (mark2 <= mark1) {
+				fps = k
+				k = 0
+
 			}
 			mark1 = mark2
-
-			t1 = Time microsec()
-			game update(delta)
-			t1 = Time microsec() - t1
-			//"time: %f" printfln(t1 as Double / 1000000)
-			t2 = t2 + t1
-			k = k + 1
-			if (k == 1000) {
-				"time: %f" printfln(t2 as Double/1000)
-			}
 			Time sleepMilli(3)
 			game draw(fps)
-		} catch (ex: Exception) {
-			"ERR %s" printfln(ex message)
-		}
+
+
+			f = f + 1
+			t2 = t2 + t1
+			if (f % 1000 == 0) {
+				a := t2 as Double / 1000.0
+				"%f" printfln(a)
+				t2 = 0
+			}
+
+		// } catch (ex: Exception) {
+		// 	"ERR %s" printfln(ex message)
+		// }
 	}
 	
 	SDL destroyRenderer(renderer)

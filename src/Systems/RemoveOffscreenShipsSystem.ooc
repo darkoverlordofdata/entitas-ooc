@@ -27,6 +27,7 @@ RemoveOffscreenShipsSystem : class extends ISystem implements  ISetWorld, IIniti
     game : Game
     world: World
     other: Group
+    position: PositionComponent
 
     init: func(=game)
     setWorld: func(=world){}
@@ -37,19 +38,10 @@ RemoveOffscreenShipsSystem : class extends ISystem implements  ISetWorld, IIniti
 
     execute: func(){
         for (entity in other entities) {
-        // entities := other getEntities()
-        // for (e in 0..entities length) {
-        //     if (e >= entities length) {
-        //         continue
-        //     }
-        //     entity := entities[e]
-        //     if (entity == null) {
-        //         continue
-        //     }
             if (entity isPlayer) continue
             if (entity isDestroy) continue
             
-            position := entity position as PositionComponent
+            position = entity position as PositionComponent
 
             if (position y > windowSize h) {
                 entity setDestroy(true)
@@ -71,8 +63,6 @@ RemoveOffscreenShipsSystem : class extends ISystem implements  ISetWorld, IIniti
                 continue
             }
         }
-
-            // if (e position y > windowSize h) e active = false
     }
 
 

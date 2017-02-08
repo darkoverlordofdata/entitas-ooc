@@ -86,6 +86,11 @@
     "Velocity": [
       "x:Double",
       "y:Double"
+    ],
+    "Hud": [
+      "label:String",
+      "text:String",
+      "sprite:SdlTexture"
     ]
   },
   "systems": {

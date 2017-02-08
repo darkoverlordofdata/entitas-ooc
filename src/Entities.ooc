@@ -147,11 +147,11 @@ extend World {
         magnitude := Random randInt(0, 200)
         velocityX := magnitude * cos(radians)
         velocityY := magnitude * sin(radians)
-        scale := Random randRange(0.1, 1.0)
+        scale := Random randInt(1, 10) as Double / 10
 
         this createCore(game, "particle", x, y
             ) addVelocity(velocityX, velocityY
-            ) addExpires(1
+            ) addExpires(0.5
             ) addScale(scale, scale
             ) addTint(0xFA, 0xFA, 0xD2, 255
             ) setActive(true)
@@ -170,11 +170,11 @@ extend World {
     }
 
     createBang: func(game: Game, x: Double, y: Double) -> Entity {
-        this createCore(game, "explosion", x, y
+        this createCore(game, "bang", x, y
             ) addExpires(1.0
-            ) addScale(1.0, 1.0
+            ) addScale(0.2, 0.2
             ) addSoundEffect(Effect SMALLASPLODE
-            ) addScaleTween(0.001, 1.0, -3, false, true
+            ) addScaleTween(0.001, 0.2, -3, false, true
             ) addTint(0xEE, 0xE8, 0xAA, 255
             ) setActive(true)
     }
@@ -210,6 +210,20 @@ extend World {
             ) addHealth(60, 60
             ) addVelocity(0, 20
             ) setActive(true)
+    }
+
+    createHud: func(game: Game, x: Double, y: Double, label: String, text: String) -> Entity {
+        surface := game hudFont renderUTF8Solid(label format(text), (0xff, 0xff, 0xff, 0xff) as SdlColor)
+        sprite := SDL createTextureFromSurface(game renderer, surface)
+
+        this createEntity("hud"
+            ) addPosition(x, y
+            ) addBounds(surface@ w, surface@ h
+            ) addLayer(Layer HUD
+            ) addHud(label, text, null
+            ) addResource("", sprite, false
+            ) setActive(true)
+
     }
 }
 

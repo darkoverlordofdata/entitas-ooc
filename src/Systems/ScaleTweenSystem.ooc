@@ -25,6 +25,12 @@ ScaleTweenSystem : class extends ISystem implements  ISetWorld, IInitializeSyste
     game : Game
     world: World
     tween: Group
+    delta: Double
+    scale: ScaleComponent
+    scaleTween: ScaleTweenComponent
+    x: Double
+    y: Double
+    active: Bool
 
     init: func(=game)
     setWorld: func(=world){}
@@ -34,25 +40,15 @@ ScaleTweenSystem : class extends ISystem implements  ISetWorld, IInitializeSyste
     }
 
     execute: func(){
-        delta := game delta
+        delta = game delta
         for (entity in tween entities) {
-        // entities := tween getEntities()
-        // for (e in 0..entities length) {
-            // if (e >= entities length) {
-            //     continue
-            // }
-            // entity := entities[e]
-            // if (entity == null) {
-            //     continue
-            // }
-
-            scale := entity scale as ScaleComponent
-            scaleTween := entity scaleTween as ScaleTweenComponent
+            scale = entity scale as ScaleComponent
+            scaleTween = entity scaleTween as ScaleTweenComponent
 
 
-            x := scale x + scaleTween speed * delta
-            y := scale y + scaleTween speed * delta
-            active := scaleTween active
+            x = scale x + scaleTween speed * delta
+            y = scale y + scaleTween speed * delta
+            active = scaleTween active
             if (x > scaleTween max)  {
                 x = scaleTween max
                 y = scaleTween max

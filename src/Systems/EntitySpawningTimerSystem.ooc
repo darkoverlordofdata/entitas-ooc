@@ -31,6 +31,7 @@ Timers: enum {
 EntitySpawningTimerSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem,  IInitializeSystem {
     game : Game
     world: World
+    delta: Double
 
     Timer1: Double = 2.0
     Timer2: Double = 7.0
@@ -48,7 +49,7 @@ EntitySpawningTimerSystem : class extends ISystem implements  ISetWorld,  IExecu
     initialize: func(){}
 
     execute: func(){
-        delta := game delta
+        delta = game delta
         spawn := func(t: Double, e: Enemy) -> Double {
             d := t-delta
             if (d<0) {

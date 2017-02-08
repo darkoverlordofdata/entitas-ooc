@@ -42,6 +42,10 @@ EntityChanged : class {
     }
 
     dispatch: func(e : Entity, index : Int, component : IComponent) {
+
+        // list_iter gets errors, possibly due to deletions
+        // explicit looping and guard statements fix it up
+
         for (l in 0.._listeners size) {
             if (l >= _listeners size) {
                 "EntityChangedListener is short" println()

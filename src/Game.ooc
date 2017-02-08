@@ -58,6 +58,7 @@ Input: enum {
 
 Game: class {
     font: TTFFont
+    hudFont: TTFFont
     rawFont: RWops
     evt : SdlEvent
     renderer: SdlRenderer
@@ -66,16 +67,19 @@ Game: class {
     world: World
     //player: PlayerInputSystem
     sprites: LinkedList<Entity>
+    onetime: LinkedList<Entity>
     delta: Double
 
     FONT_TTF:String = "/home/bruce/ooc/demo/res/fonts/OpenDyslexic-Bold.otf"
 
     init: func(=renderer) {
         sprites = LinkedList<SdlTexture> new()
+        onetime = LinkedList<SdlTexture> new()
         font = TTFFont new(FONT_TTF, 28)
         if (!font) {
             Exception new("Font can not be loaded!") throw()
         }
+        hudFont = TTFFont new(FONT_TTF, 14)
         inputs = Bool[6] new()
         initPools()
         world = World new(components) 
@@ -107,11 +111,13 @@ Game: class {
         (w, h) := (0.0, 0.0)
         if (e hasScale) {
             scale := e scale as ScaleComponent
-            (w, h) = (bounds width * scale x, bounds height * scale y)
+            w = bounds width * scale x
+            h = bounds height * scale y
+            // w = ((bounds width as Double) * scale x) as Int
+            // h = ((bounds height as Double) * scale y) as Int
         } else {
             (w, h) = (bounds width, bounds height)
         }
-
         x := (resource bgd) ? position x - w / 2 : position x
         y := (resource bgd) ? position y - h / 2 : position y
         if (e hasTint) {
@@ -125,13 +131,8 @@ Game: class {
     draw: func(fps: Int)  {		
         SDL setRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xff)
 		SDL renderClear(renderer)
-        for (i in 0..sprites size) {
-            if (i >= sprites size) {
-                continue
-            }
-            sprite := sprites[i]
-            if (sprite != null) drawSprite(sprite)   
-        }
+
+        for (sprite in sprites) drawSprite(sprite)
 
         text := font renderUTF8Solid(fps toString(), (0xff, 0xff, 0xff, 0xff) as SdlColor)
         texture := SDL createTextureFromSurface(renderer, text)

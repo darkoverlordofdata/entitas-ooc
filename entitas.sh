@@ -42,6 +42,9 @@ npm run entitas -- create -c SoundEffect effect:Int
 npm run entitas -- create -c Text text:String sprite:SdlTexture
 npm run entitas -- create -c Tint r:Int g:Int b:Int a:Int
 npm run entitas -- create -c Velocity x:Double y:Double
+
+npm run entitas -- create -c Hud label:String text:String sprite:SdlTexture
+
 npm run entitas -- create -s CollisionSystem ISetWorld IExecuteSystem IInitializeSystem
 npm run entitas -- create -s ColorTweenSystem ISetWorld IExecuteSystem
 npm run entitas -- create -s EntitySpawningTimerSystem ISetWorld IExecuteSystem IInitializeSystem

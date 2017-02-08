@@ -25,36 +25,44 @@ ViewManagerSystem : class extends ISystem implements  ISetWorld,  IInitializeSys
     game : Game
     world: World
     active: Group
+    resource: ResourceComponent
+    layer: LayerComponent
+    ordinal: Int
+    sprites: LinkedList<Entity>
+    i: Int
 
     init: func(=game)
     setWorld: func(=world)
 
 
     initialize: func(){
+        sprites = game sprites
         active = world getGroup(Matcher matchAllOf(Component Active))
         active onEntityAdded add(func(g : Group, e : Entity, index: Int, component : IComponent) {
-            //"%s added to %s" printfln(e name, group toString())
 
-            scale : ScaleComponent
-            layer : LayerComponent
-            ordinal : Int = 0
+            resource = e resource as ResourceComponent
+            layer = e layer as LayerComponent
+            ordinal = layer ordinal as Int
 
-            res := component as ResourceComponent
+            // insert into sorted order by layer
 
-            game sprites add(e)
+            if (sprites size == 0) {
+                sprites add(e)
+            } else {
+                i = 0
+                for (s in sprites) {
+                    layer = s layer as LayerComponent
 
-
-            if (e hasScale) {
-
+                    if (ordinal <= layer ordinal) {
+                        sprites add(i, e)
+                        return
+                    } else {
+                        i += 1
+                    }
+                }
+                sprites add(e)
             }
-
-            if (e hasLayer) {
-
-            }
-
-            if (e hasTint) {
-
-            }
+            
         })
     }
 }

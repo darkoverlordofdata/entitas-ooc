@@ -26,7 +26,14 @@ CollisionSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem, 
     world: World
     enemyGroup: Group
     bulletGroup: Group
-    name: String = "CollisionSystem"
+
+    ep: PositionComponent
+    eb: BoundsComponent
+    bp: PositionComponent
+    bd: BoundsComponent
+    bh: HealthComponent
+    eh: HealthComponent
+
 
     init: func(=game)
     setWorld: func(=world){}
@@ -40,42 +47,16 @@ CollisionSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem, 
 
     execute: func(){
 
-        // enemies := enemyGroup getEntities()
-        // bullets := bulletGroup getEntities()
-
-        // for (e in 0..enemies length) {
-        //     if (e >= enemies length) {
-        //         continue
-        //     }
-        //     enemy := enemies[e]
-        //     if (enemy == null) {
-        //         continue
-        //     }
-        //     for (b in 0..bullets length) {
-        //         if (b >= bullets length) {
-        //             continue
-        //         }
-        //         bullet := bullets[b]
-        //         if (bullet == null) {
-        //             continue
-        //         }
-        //     }
-        // }
-
         for (enemy in enemyGroup entities) {
             for (bullet in bulletGroup entities) {
-                // if (!bullet hasBounds) continue
-                // if (!bullet hasPosition) continue
-                // if (!enemy hasBounds) continue
-                // if (!enemy hasPosition) continue
-                ep := enemy position as PositionComponent
-                eb := enemy bounds as BoundsComponent
-                bp := bullet position as PositionComponent
-                bd := bullet bounds as BoundsComponent
+                ep = enemy position as PositionComponent
+                eb = enemy bounds as BoundsComponent
+                bp = bullet position as PositionComponent
+                bd = bullet bounds as BoundsComponent
                 if (bp y < 0 || bp x < 0) {
                     continue
                 }
-                if (intersects((ep x as Int, ep y as Int, eb width, eb height) as SdlRect, (bp x as Int, bp y as Int, bd width, bd height) as SdlRect)) {
+                if (intersects((ep x as Int, ep y as Int, eb width / 2, eb height / 2) as SdlRect, (bp x as Int, bp y as Int, bd width * 2, bd height) as SdlRect)) {
                     handleCollision(enemy, bullet)
                 }
             }
@@ -93,14 +74,9 @@ CollisionSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem, 
     }
 
     handleCollision: func(enemy: Entity, bullet: Entity) {
-        // if (!bullet hasBounds) return 
-        // if (!bullet hasHealth) return
-        // if (!enemy hasHealth) return
-        // if (!bullet hasHealth) return
-        // "Bang!" print()
-        bp := bullet position as PositionComponent
-        bh := bullet health as HealthComponent
-        eh := enemy health as HealthComponent
+        bp = bullet position as PositionComponent
+        bh = bullet health as HealthComponent
+        eh = enemy health as HealthComponent
 
         world createBang(game, bp x, bp y)
         bullet setDestroy(true)

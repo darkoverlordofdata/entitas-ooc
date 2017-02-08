@@ -27,7 +27,9 @@ PlayerInputSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem
     player: Group
     FireRate : Double = 0.1
     timeToFire: Double
-    name: String = "PlayerInputSystem"
+    entity: Entity
+    position: PositionComponent
+    
 
     init: func(=game)
     setWorld: func(=world){}
@@ -37,8 +39,8 @@ PlayerInputSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem
     }
 
     execute: func(){
-        e := player getSingleEntity()
-        position := e position as PositionComponent
+        entity = player getSingleEntity()
+        position = entity position as PositionComponent
 
         position x = game mouse x
         position y = game mouse y
