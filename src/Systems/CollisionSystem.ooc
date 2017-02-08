@@ -56,7 +56,7 @@ CollisionSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem, 
                 if (bp y < 0 || bp x < 0) {
                     continue
                 }
-                if (intersects((ep x as Int, ep y as Int, eb width / 2, eb height / 2) as SdlRect, (bp x as Int, bp y as Int, bd width * 2, bd height) as SdlRect)) {
+                if (intersects((ep x - eb width / 4 as Int, ep y as Int, eb width / 2, eb height / 2) as SdlRect, (bp x as Int, bp y as Int, bd width * 2, bd height) as SdlRect)) {
                     handleCollision(enemy, bullet)
                 }
             }

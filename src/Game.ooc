@@ -70,6 +70,17 @@ Game: class {
     onetime: LinkedList<Entity>
     delta: Double
 
+    strFps: String = ""
+    textFps: SdlSurface*
+    textureFps: SdlTexture
+    lastFps: Int
+
+    strSlice: String = ""
+    textSlice: SdlSurface*
+    textureSlice: SdlTexture
+    lastSlice: Double
+    
+
     FONT_TTF:String = "/home/bruce/ooc/demo/res/fonts/OpenDyslexic-Bold.otf"
 
     init: func(=renderer) {
@@ -128,15 +139,40 @@ Game: class {
         
     }
 
-    draw: func(fps: Int)  {		
+    draw: func(fps: Int, slice: Double)  {		
         SDL setRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xff)
 		SDL renderClear(renderer)
 
         for (sprite in sprites) drawSprite(sprite)
 
-        text := font renderUTF8Solid(fps toString(), (0xff, 0xff, 0xff, 0xff) as SdlColor)
-        texture := SDL createTextureFromSurface(renderer, text)
-        SDL renderCopy(renderer, texture, null, (5, 5, 56, 28) as SdlRect&)
+        if (fps != lastFps) {
+            strFps = "%2d" format(fps)
+            textFps = font renderUTF8Solid(strFps, (0xff, 0xff, 0xff, 0xff) as SdlColor)
+            textureFps = SDL createTextureFromSurface(renderer, textFps)
+            lastFps = fps
+        }
+        if (textureFps != null)    
+            SDL renderCopy(renderer, textureFps, null, (5, 5, 54, 28) as SdlRect&)
+
+        if (fps != lastSlice) {
+            strSlice = "%f" format(slice)
+            textSlice = font renderUTF8Solid(strSlice, (0xff, 0xff, 0xff, 0xff) as SdlColor)
+            textureSlice = SDL createTextureFromSurface(renderer, textSlice)
+            lastSlice = slice
+        }
+        if (textureSlice != null)    
+            SDL renderCopy(renderer, textureSlice, null, (70, 10, 114, 28) as SdlRect&)
+
+        // if (fps != lastFps || slice != lastSlice) {
+        //     if (slice > 0) {
+        //         str1 = "%2d" format(fps)
+        //         str2 = "/%f" format(slice)
+        //         str = str1 + str2 substring(2)
+        //     } else {
+        //         str = "%2d" format(fps)
+        //     }
+        // }
+
 
 		SDL renderPresent(renderer)
     }

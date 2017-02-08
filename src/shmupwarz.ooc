@@ -60,6 +60,7 @@ main: func (argc: Int, argv: CString*) {
 	t2 := 0.0
 	k := 0
 	f := 0
+	a := 0.0
 
 	while (!game inputs[Input QUIT]) {
 		// try {
@@ -83,13 +84,13 @@ main: func (argc: Int, argv: CString*) {
 			}
 			mark1 = mark2
 			Time sleepMilli(3)
-			game draw(fps)
+			game draw(fps, a)
 
 
 			f = f + 1
 			t2 = t2 + t1
 			if (f % 1000 == 0) {
-				a := t2 as Double / 1000.0
+				a = t2 as Double / 1000.0
 				"%f" printfln(a)
 				t2 = 0
 			}
