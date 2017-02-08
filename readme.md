@@ -1,8 +1,14 @@
 # ShmupWarz
 
-OC allows adding extension method to existing object classes.
 
-One aspect not working is that I cannot cast to an external type from an extend.
+### libs
+libraries written using ooc are consumed from source, not binary.
+This reduces dependancies. No extra dll for entitas or libsdx
+
+
+### extend
+OC allows adding extension method to existing object classes.
+I cannot cast to an external type from an extend.
 So I need to unpack components to work with them:
 
         position := e position as PositionComponent
@@ -10,11 +16,8 @@ So I need to unpack components to work with them:
         bounds := e bounds as BoundsComponent
 
 
-Starting to sound like ground hog day...
-What happed to the Vala/Genie version?
 
-It's on hold while Gnome tries to figure out if it's keeping Vala alive.
-
+### Performance
 
 ooc	        vala
 0.001907	0.003665 avge per 1000
@@ -30,5 +33,4 @@ ooc	        vala
 ========        ========
 0.0026884	0.0035868 avg
 
-Performance is virtually identical.
-33% faster than vala. That will even out as the feature set fills out on the ooc version.
+Performance is on par, with ooc aboout 33% faster than vala. 

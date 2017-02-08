@@ -91,6 +91,9 @@
       "label:String",
       "text:String",
       "sprite:SdlTexture"
+    ],
+    "Entity": [
+      "entity:Entity"
     ]
   },
   "systems": {

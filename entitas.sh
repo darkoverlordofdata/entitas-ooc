@@ -45,6 +45,8 @@ npm run entitas -- create -c Velocity x:Double y:Double
 
 npm run entitas -- create -c Hud label:String text:String sprite:SdlTexture
 
+npm run entitas -- create -c Entity entity:Entity
+
 npm run entitas -- create -s CollisionSystem ISetWorld IExecuteSystem IInitializeSystem
 npm run entitas -- create -s ColorTweenSystem ISetWorld IExecuteSystem
 npm run entitas -- create -s EntitySpawningTimerSystem ISetWorld IExecuteSystem IInitializeSystem

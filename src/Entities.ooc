@@ -183,33 +183,59 @@ extend World {
         x := Random randInt(0, SCREEN_WIDTH)
         y := SCREEN_HEIGHT/2 - 200
 
-        this createCore(game, "enemy1", x, y
-            ) setEnemy(true
+        entity:Entity 
+        entity = this createCore(game, "enemy1", x, y)
+        entity setEnemy(true
             ) addHealth(10, 10
             ) addVelocity(0, 40
+            ) addEntity(this createText(game, "100%", entity)
             ) setActive(true)
+
+        entity
     }
 
     createEnemy2: func(game: Game) -> Entity {
         x := Random randInt(0, SCREEN_WIDTH)
         y := SCREEN_HEIGHT/2 - 100
 
-        this createCore(game, "enemy2", x, y
-            ) setEnemy(true
+        entity:Entity 
+        entity = this createCore(game, "enemy2", x, y)
+        entity setEnemy(true
             ) addHealth(20, 20
             ) addVelocity(0, 30
+            ) addEntity(this createText(game, "100%", entity)
             ) setActive(true)
+        entity
     }
 
     createEnemy3: func(game: Game) -> Entity {
         x := Random randInt(0, SCREEN_WIDTH)
         y := SCREEN_HEIGHT/2 - 50
         
-        this createCore(game, "enemy3", x, y
-            ) setEnemy(true
+        entity:Entity 
+        entity = this createCore(game, "enemy3", x, y)
+        entity setEnemy(true
             ) addHealth(60, 60
             ) addVelocity(0, 20
+            ) addEntity(this createText(game, "100%", entity)
             ) setActive(true)
+        entity
+    }
+
+    createText: func(game: Game, text: String, entity: Entity) -> Entity {
+        surface := game hudFont renderUTF8Solid(text, (0xff, 0xff, 0x00, 0xff) as SdlColor)
+        sprite := SDL createTextureFromSurface(game renderer, surface)
+
+        this createEntity("text"
+            ) addPosition(0, 0
+            ) addResource("", sprite, false
+            ) addBounds(surface@ w, surface@ h
+            ) addLayer(Layer HUD
+            ) addText(text, null
+            ) addEntity(entity
+            ) setActive(true)
+
+        
     }
 
     createHud: func(game: Game, x: Double, y: Double, label: String, text: String) -> Entity {

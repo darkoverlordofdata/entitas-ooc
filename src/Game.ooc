@@ -163,17 +163,6 @@ Game: class {
         if (textureSlice != null)    
             SDL renderCopy(renderer, textureSlice, null, (70, 10, 114, 28) as SdlRect&)
 
-        // if (fps != lastFps || slice != lastSlice) {
-        //     if (slice > 0) {
-        //         str1 = "%2d" format(fps)
-        //         str2 = "/%f" format(slice)
-        //         str = str1 + str2 substring(2)
-        //     } else {
-        //         str = "%2d" format(fps)
-        //     }
-        // }
-
-
 		SDL renderPresent(renderer)
     }
 

@@ -50,6 +50,7 @@ components := [
     "TintComponent",
     "VelocityComponent",
     "HudComponent",
+    "EntityComponent",
     "ComponentsCount"
     ]
 
@@ -74,6 +75,7 @@ Component: enum {
     Tint
     Velocity
     Hud
+    Entity
     ComponentsCount
 }
 
@@ -194,6 +196,10 @@ HudComponent : class extends IComponent {
     label : String 
     text : String 
     sprite : SdlTexture 
+    init: func()
+}
+EntityComponent : class extends IComponent {
+    entity : Entity 
     init: func()
 }
 
@@ -1136,6 +1142,52 @@ extend Entity {
         this
     }
 
+    /* Entity: Entity methods*/
+
+    /** @type Entity */
+    entity : IComponent {
+        get { getComponent(Component Entity as Int) }
+    }
+    /** @type boolean */
+    hasEntity : Bool {
+        get { hasComponent(Component Entity as Int) }
+    }
+    clearEntityComponentPool: func() {
+        __entityComponentPool clear()
+    }
+    /**
+     * @param entity Entity
+     * @return entitas.Entity
+     */
+    addEntity: func(entity:Entity) -> This {
+        c := __entityComponentPool empty?() ? EntityComponent new() : __entityComponentPool pop()
+        c entity = entity
+        addComponent(Component Entity as Int, c)
+        this
+    }
+    /**
+     * @param entity Entity
+     * @return entitas.Entity
+     */
+    replaceEntity: func(entity:Entity) -> This {
+        previousComponent := this hasEntity ? this entity as EntityComponent : null
+        c := __entityComponentPool empty?() ? EntityComponent new() : __entityComponentPool pop()
+        c entity = entity
+        replaceComponent(Component Entity as Int, c) 
+        if (previousComponent != null)
+            __entityComponentPool push(previousComponent)
+        this
+    }
+    /**
+     * @returns entitas.Entity
+     */
+    removeEntity: func() -> This {
+        c := entity as EntityComponent
+        removeComponent(Component Entity as Int) 
+        __entityComponentPool push(c)
+        this
+    }
+
 }
 
 
@@ -1183,6 +1235,8 @@ __tintComponentPool : Stack<TintComponent>
 __velocityComponentPool : Stack<VelocityComponent>
     /** @type Stack<Hud> */
 __hudComponentPool : Stack<HudComponent>
+    /** @type Stack<Entity> */
+__entityComponentPool : Stack<EntityComponent>
 
 
 initPools: func(){
@@ -1242,5 +1296,8 @@ initPools: func(){
     __hudComponentPool = Stack<HudComponent> new()
     for(i in 1..POOL_SIZE) 
         __hudComponentPool push(HudComponent new())
+    __entityComponentPool = Stack<EntityComponent> new()
+    for(i in 1..POOL_SIZE) 
+        __entityComponentPool push(EntityComponent new())
 
 }

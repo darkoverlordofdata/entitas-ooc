@@ -11,6 +11,11 @@
         {
             "isBuildCommand": true,
             "taskName": "build",
+            "args": ["rock -I/usr/include/SDL2 -pg -v ${workspaceRootFolderName}.use"]
+        },
+        {
+            "isBuildCommand": false,
+            "taskName": "release",
             "args": ["rock -I/usr/include/SDL2 -pr -v ${workspaceRootFolderName}.use"]
         }
     ]
