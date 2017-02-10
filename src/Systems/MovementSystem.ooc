@@ -21,6 +21,14 @@ import Components
 import Entities
 import Game
 
+// Position := func(e: Entity) -> PositionComponent {
+//     return e position as PositionComponent
+// }
+
+// Velocity := func(e: Entity) -> VelocityComponent {
+//     return e velocity as VelocityComponent
+// }
+
 MovementSystem : class extends ISystem implements  ISetWorld, IInitializeSystem, IExecuteSystem {
     game : Game
     world: World
@@ -42,11 +50,14 @@ MovementSystem : class extends ISystem implements  ISetWorld, IInitializeSystem,
 
         for (entity in group entities) {
             if (entity isEnabled) {
-                position = entity position as PositionComponent
-                velocity = entity velocity as VelocityComponent
+                // position = entity position as PositionComponent
+                // velocity = entity velocity as VelocityComponent
 
-                position x = position x + velocity x * delta
-                position y = position y + velocity y * delta
+                // position x = position x + velocity x * delta
+                // position y = position y + velocity y * delta
+
+                Position(entity) x = Position(entity) x + Velocity(entity) x * delta
+                Position(entity) y = Position(entity) y + Velocity(entity) y * delta
 
             }
         }

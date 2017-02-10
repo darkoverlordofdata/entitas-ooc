@@ -36,10 +36,11 @@ DestroySystem : class extends ISystem implements  ISetWorld,  IExecuteSystem,  I
     /* remove the entity from the games sprites list */
     execute: func(){
         for (entity in terminate entities) {
+                
             world destroyEntity(entity)
             game sprites remove(entity)
-            
         } 
+
     }
 
 }

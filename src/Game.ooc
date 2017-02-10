@@ -3,6 +3,7 @@ import math
 import sdl2/[Core, Event, Image, TTF, RW]
 import structs/ArrayList
 import structs/LinkedList
+import structs/List
 import structs/Stack
 import entitas/Entity
 import entitas/Exceptions
@@ -65,9 +66,7 @@ Game: class {
     mouse: Point2d 
     inputs: Bool[]
     world: World
-    //player: PlayerInputSystem
-    sprites: LinkedList<Entity>
-    onetime: LinkedList<Entity>
+    sprites: LinkedList<Entity> = LinkedList<Entity> new()
     delta: Double
 
     strFps: String = ""
@@ -84,8 +83,7 @@ Game: class {
     FONT_TTF:String = "/home/bruce/ooc/demo/res/fonts/OpenDyslexic-Bold.otf"
 
     init: func(=renderer) {
-        sprites = LinkedList<SdlTexture> new()
-        onetime = LinkedList<SdlTexture> new()
+        //sprites = ArrayList<Entity> new()
         font = TTFFont new(FONT_TTF, 28)
         if (!font) {
             Exception new("Font can not be loaded!") throw()
@@ -106,7 +104,7 @@ Game: class {
         world add(ScaleTweenSystem new(this))
         world add(RemoveOffscreenShipsSystem new(this))
         world add(RenderPositionSystem new(this))
-        world add(HealthRenderSystem new(this))
+        //world add(HealthRenderSystem new(this))
         world add(HudRenderSystem new(this))
         world initialize()
         world createBackground(this)
@@ -114,7 +112,14 @@ Game: class {
         
     }
 
-    drawSprite: func(e: Entity) {
+    /**
+     * draw
+     * 
+     * draw a single entity
+     *
+     * @param entity to draw
+     */
+    draw: func ~entity(e: Entity) {
         position := e position as PositionComponent
         resource := e resource as ResourceComponent
         bounds := e bounds as BoundsComponent
@@ -129,21 +134,29 @@ Game: class {
         } else {
             (w, h) = (bounds width, bounds height)
         }
-        x := (resource bgd) ? position x - w / 2 : position x
-        y := (resource bgd) ? position y - h / 2 : position y
+        x := (resource bgd) ? position x - w / 2.0 : position x
+        y := (resource bgd) ? position y - h / 2.0 : position y
         if (e hasTint) {
             tint := e tint as TintComponent
             SDL setTextureColorMod(resource sprite, tint r, tint g, tint b)
         }
-        SDL renderCopy(renderer, resource sprite, null, (x, y, w, h) as SdlRect&)
+        SDL renderCopy(renderer, resource sprite, null, (x as Int, y as Int, w as Int, h as Int) as SdlRect&)
         
     }
 
-    draw: func(fps: Int, slice: Double)  {		
+    /**
+     * draw
+     * 
+     * draw a frame
+     *
+     * @param fps frame per second
+     * @param slice avg ms per frame
+     */
+    draw: func ~frame(fps: Int, slice: Double)  {		
         SDL setRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xff)
 		SDL renderClear(renderer)
 
-        for (sprite in sprites) drawSprite(sprite)
+        for (sprite in sprites) draw(sprite)
 
         if (fps != lastFps) {
             strFps = "%2d" format(fps)

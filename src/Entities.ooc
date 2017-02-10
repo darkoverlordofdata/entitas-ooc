@@ -33,6 +33,10 @@ import Systems/ViewManagerSystem
 import Components
 import Game
 
+Tau: Double = 3.14159 * 2.0
+windowSize := (0, 0, 720, 640) as SdlRect 	
+RES: String = "/home/bruce/ooc/shmupwarz/res/images"
+
 Enemy: enum {
     Enemy1
     Enemy2
@@ -61,11 +65,6 @@ Effect: enum {
     ASPLODE
     SMALLASPLODE
 }
-
-RES: String = "/home/bruce/ooc/shmupwarz/res/images"
-Tau: Double = 3.14159 * 2.0
-SCREEN_WIDTH: Int = 640
-SCREEN_HEIGHT: Int = 480
 
 getPath: func(name: String) -> String {
     match name {
@@ -112,7 +111,7 @@ extend World {
 
     createBackground: func(game:Game) -> Entity {
         this createCore(game, "background"
-            ) addScale(2, 1
+            ) addScale(2, 2
             ) setActive(true)
         
     }
@@ -132,7 +131,7 @@ extend World {
     createBullet: func(game: Game, x : Double, y : Double) -> Entity {
         this createCore(game, "bullet", x, y
             ) setBullet(true
-            ) addHealth(2, 2
+            ) addHealth(1, 1
             ) addVelocity(0, -800
             ) addTint(0xAD, 0xFF, 0x2F, 255
             ) addExpires(1
@@ -151,7 +150,7 @@ extend World {
 
         this createCore(game, "particle", x, y
             ) addVelocity(velocityX, velocityY
-            ) addExpires(0.5
+            ) addExpires(1.0
             ) addScale(scale, scale
             ) addTint(0xFA, 0xFA, 0xD2, 255
             ) setActive(true)
@@ -174,52 +173,42 @@ extend World {
             ) addExpires(1.0
             ) addScale(0.2, 0.2
             ) addSoundEffect(Effect SMALLASPLODE
-            ) addScaleTween(0.001, 0.2, -3, false, true
+            ) addScaleTween(0.001, 0.2, -2, false, true
             ) addTint(0xEE, 0xE8, 0xAA, 255
             ) setActive(true)
     }
 
     createEnemy1: func(game: Game) -> Entity {
-        x := Random randInt(0, SCREEN_WIDTH)
-        y := SCREEN_HEIGHT/2 - 200
+        x := Random randInt(0, windowSize w)
+        y := windowSize h/2 - 200
 
-        entity:Entity 
-        entity = this createCore(game, "enemy1", x, y)
-        entity setEnemy(true
+        this createCore(game, "enemy1", x, y
+            ) setEnemy(true
             ) addHealth(10, 10
             ) addVelocity(0, 40
-            ) addEntity(this createText(game, "100%", entity)
             ) setActive(true)
-
-        entity
     }
 
     createEnemy2: func(game: Game) -> Entity {
-        x := Random randInt(0, SCREEN_WIDTH)
-        y := SCREEN_HEIGHT/2 - 100
+        x := Random randInt(0, windowSize w)
+        y := windowSize h/2 - 100
 
-        entity:Entity 
-        entity = this createCore(game, "enemy2", x, y)
-        entity setEnemy(true
+        this createCore(game, "enemy2", x, y
+            ) setEnemy(true
             ) addHealth(20, 20
             ) addVelocity(0, 30
-            ) addEntity(this createText(game, "100%", entity)
             ) setActive(true)
-        entity
     }
 
     createEnemy3: func(game: Game) -> Entity {
-        x := Random randInt(0, SCREEN_WIDTH)
-        y := SCREEN_HEIGHT/2 - 50
+        x := Random randInt(0, windowSize w)
+        y := windowSize h/2 - 50
         
-        entity:Entity 
-        entity = this createCore(game, "enemy3", x, y)
-        entity setEnemy(true
+        this createCore(game, "enemy3", x, y
+            ) setEnemy(true
             ) addHealth(60, 60
             ) addVelocity(0, 20
-            ) addEntity(this createText(game, "100%", entity)
             ) setActive(true)
-        entity
     }
 
     createText: func(game: Game, text: String, entity: Entity) -> Entity {
@@ -232,7 +221,6 @@ extend World {
             ) addBounds(surface@ w, surface@ h
             ) addLayer(Layer HUD
             ) addText(text, null
-            ) addEntity(entity
             ) setActive(true)
 
         

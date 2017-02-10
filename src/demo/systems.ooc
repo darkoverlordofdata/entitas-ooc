@@ -7,10 +7,6 @@ import entities
 import components
 import game
 
-windowSize := (0, 0, 640, 720) as SdlRect 	
-
-
-
 Systems: class {
 
     enemyT1: Double = Timer1 as Double 

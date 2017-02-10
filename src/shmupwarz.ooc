@@ -35,8 +35,6 @@ import Components
 import Game
 
 
-windowSize := (0, 0, 640, 720) as SdlRect 	
-
 main: func (argc: Int, argv: CString*) {
 
 	SDL init(SDL_INIT_EVERYTHING)
@@ -54,22 +52,28 @@ main: func (argc: Int, argv: CString*) {
 	mark2 := 0.0
 	delta := 0.0
 	frame := 0
-	fps := 60
-
+	fps := 6
 	t1 := 0.0
 	t2 := 0.0
+	a := 0.0
+	m1 := 0
+	m2 := 0
 	k := 0
 	f := 0
-	a := 0.0
 
 	while (!game inputs[Input QUIT]) {
 		// try {
 
+			m2 = Time microsec()
+			mark2 = Time microsec() as Double / 1000000
 			game handleEvents()
 
-			mark2 = Time microsec() as Double / 1000000
 			delta = mark2 - mark1
 			if (delta < 0) delta = delta + 1.0
+			 
+			d2 := (m2-m1) as Double / 1000000
+			if (d2 < 0) d2 = d2 + 1.0
+			delta = (d2+delta)/2.0
 
 			t1 = Time microsec() as Double / 1000000
 			game update(delta)
@@ -83,9 +87,7 @@ main: func (argc: Int, argv: CString*) {
 
 			}
 			mark1 = mark2
-			Time sleepMilli(3)
-			game draw(fps, a)
-
+			m1 = m2
 
 			f = f + 1
 			t2 = t2 + t1
@@ -94,6 +96,8 @@ main: func (argc: Int, argv: CString*) {
 				"%f" printfln(a)
 				t2 = 0
 			}
+			//Time sleepMilli(3)
+			game draw(fps, a)
 
 		// } catch (ex: Exception) {
 		// 	"ERR %s" printfln(ex message)

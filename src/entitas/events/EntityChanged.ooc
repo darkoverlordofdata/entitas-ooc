@@ -1,3 +1,4 @@
+import structs/ArrayList
 import structs/LinkedList
 import structs/List
 
@@ -20,7 +21,7 @@ EntityChangedListener : class {
 
 EntityChanged : class {
 
-    _listeners : LinkedList<EntityChangedListener> = LinkedList<EntityChangedListener> new()
+    _listeners : List<EntityChangedListener> = LinkedList<EntityChangedListener> new()
 
     init: func()
 

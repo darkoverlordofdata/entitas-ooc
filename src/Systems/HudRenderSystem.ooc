@@ -101,10 +101,4 @@ HudRenderSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem, 
         }
 
     }
-
-    // createText: func(str: String, val: Int) -> SdlTexture {
-    //     text := game font renderUTF8Solid(str format(val), (0, 0, 0, 0) as SdlColor)
-    //     SDL createTextureFromSurface(game renderer, text)
-    // }
-
 }

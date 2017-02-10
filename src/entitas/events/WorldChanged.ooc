@@ -1,3 +1,4 @@
+import structs/ArrayList
 import structs/LinkedList
 import structs/List
 

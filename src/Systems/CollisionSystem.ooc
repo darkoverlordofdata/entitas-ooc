@@ -48,7 +48,9 @@ CollisionSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem, 
     execute: func(){
 
         for (enemy in enemyGroup entities) {
+            if (enemy isDestroy) continue
             for (bullet in bulletGroup entities) {
+                if (bullet isDestroy) continue
                 ep = enemy position as PositionComponent
                 eb = enemy bounds as BoundsComponent
                 bp = bullet position as PositionComponent
@@ -56,7 +58,7 @@ CollisionSystem : class extends ISystem implements  ISetWorld,  IExecuteSystem, 
                 if (bp y < 0 || bp x < 0) {
                     continue
                 }
-                if (intersects((ep x - eb width / 4 as Int, ep y as Int, eb width / 2, eb height / 2) as SdlRect, (bp x as Int, bp y as Int, bd width * 2, bd height) as SdlRect)) {
+                if (intersects((ep x - eb width / 4 as Int, ep y - eb height / 4 as Int, eb width / 2, eb height / 2) as SdlRect, (bp x as Int, bp y as Int, bd width * 2, bd height) as SdlRect)) {
                     handleCollision(enemy, bullet)
                 }
             }

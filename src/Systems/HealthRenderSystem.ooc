@@ -25,7 +25,7 @@ HealthRenderSystem : class extends ISystem implements  ISetWorld,  IExecuteSyste
     game : Game
     world: World
     group: Group
-    parent: EntityComponent
+    //parent: EntityComponent
     parentEnt: Entity
     parentPos: PositionComponent
     parentHlt: HealthComponent
@@ -35,73 +35,62 @@ HealthRenderSystem : class extends ISystem implements  ISetWorld,  IExecuteSyste
     resource: ResourceComponent
     bounds: BoundsComponent
     pct: String
+    p: Int
     
     init: func(=game)
-    setWorld: func(=world){}
+    setWorld: func(=world)
 
     initialize: func(){
-        group = world getGroup(Matcher matchAllOf(Component Text, Component Entity))
+        group = world getGroup(Matcher matchAllOf(Component Text))
     }
 
     execute: func(){
         for (entity in group entities) {
-            position = entity position as PositionComponent
-            text = entity text as TextComponent
-            parent = entity entity as EntityComponent
-            resource = entity resource as ResourceComponent
-            bounds = entity bounds as BoundsComponent
+            // try {
+                if (!entity hasPosition) continue
+                position = entity position as PositionComponent
+                // "position (%f,%f)" printfln(position x, position y)
+                resource = entity resource as ResourceComponent
+                // "resource (%s)" printfln(resource path)
+                bounds = entity bounds as BoundsComponent
+                // "bounds (%f, %f)" printfln(bounds width, bounds height)
+                text = entity text as TextComponent
+                // "text (%s)" printfln(text text)
+                // parent = entity entity as EntityComponent
+                // parentEnt = parent entity as Entity
+                // if (!parentEnt isEnabled)  {
+                //     // "%d" printfln(parentEnt isEnabled)
+                //     entity setDestroy(true)
+                //     //world destroyEntity(parentEnt)
+                //     continue
+                // }
+                // parentPos = parentEnt position as PositionComponent
+                // parentHlt = parentEnt health as HealthComponent
 
-            parentEnt = parent entity as Entity
-            parentPos = parentEnt position as PositionComponent
-            parentHlt = parentEnt health as HealthComponent
+                // position x = parentPos x
+                // position y = parentPos y
 
-            position x = parentPos x
-            position y = parentPos y
-
-            p := (parentHlt health/parentHlt maximumHealth*100.0) as Int
-            if (p < 2) {
-                entity setDestroy(true)
-            } else {
-                pct = "%d%%" format(p)
-                if (pct != text text) {
-                    surface := game hudFont renderUTF8Solid(pct, (0xff, 0xff, 0x00, 0xff) as SdlColor)
-                    sprite := SDL createTextureFromSurface(game renderer, surface)
+                // p = (parentHlt health/parentHlt maximumHealth*100.0) as Int
+                // if (p < 2) {
+                //     parentEnt removeEntity()
+                //     entity setDestroy(true)
+                // } else {
+                //     pct = "%d%%" format(p)
+                //     if (pct != text text) {
+                //         surface := game hudFont renderUTF8Solid(pct, (0xff, 0xff, 0x00, 0xff) as SdlColor)
+                //         sprite := SDL createTextureFromSurface(game renderer, surface)
+                        
+                //         bounds width = surface@ w
+                //         bounds height = surface@ h
+                //         resource sprite = sprite
+                //         text text = pct
                     
-                    bounds width = surface@ w
-                    bounds height = surface@ h
-                    resource sprite = sprite
-                    text text = pct
+                //     }
+                // }
                 
-                }
-            }
+            // } catch (ex: Exception) {
+            //     "ERR %s\n%s" printfln(ex message, entity toString())
+            // }
         }
     }
-            
-            // pct = "%d%%" format(health.health/health.maximumHealth*100.0)
-
-
-            // if (pct == text.text) {
-            //     sprite = text.sprite
-            //     if (sprite == null) {
-            //         sprite = new Sprite.text(text.text, Sdx.app.font, sdx.graphics.Color.Lime)
-            //         sprite.centered = false
-            //         text.sprite = sprite
-            //     }
-            // } else {
-            //     text.text = pct
-            //     text.sprite = null
-            //     sprite = new Sprite.text(text.text, Sdx.app.font, sdx.graphics.Color.LimeGreen)
-            //     sprite.centered = false
-            //     text.sprite = sprite
-            // }
-            // sprite.x = position.x
-            // sprite.y = position.y
-            // Sdx.app.onetime.add(sprite)
-
-            
-
-    
-
-
-
 }

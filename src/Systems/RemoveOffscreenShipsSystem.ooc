@@ -21,8 +21,6 @@ import Components
 import Entities
 import Game
 
-windowSize := (0, 0, 640, 720) as SdlRect 	
-
 RemoveOffscreenShipsSystem : class extends ISystem implements  ISetWorld, IInitializeSystem, IExecuteSystem {
     game : Game
     world: World

@@ -50,7 +50,6 @@ components := [
     "TintComponent",
     "VelocityComponent",
     "HudComponent",
-    "EntityComponent",
     "ComponentsCount"
     ]
 
@@ -75,7 +74,6 @@ Component: enum {
     Tint
     Velocity
     Hud
-    Entity
     ComponentsCount
 }
 
@@ -198,9 +196,52 @@ HudComponent : class extends IComponent {
     sprite : SdlTexture 
     init: func()
 }
-EntityComponent : class extends IComponent {
-    entity : Entity 
-    init: func()
+
+
+Bounds := func(entity: Entity) -> BoundsComponent {
+    entity bounds as BoundsComponent
+}
+ColorTween := func(entity: Entity) -> ColorTweenComponent {
+    entity colorTween as ColorTweenComponent
+}
+Expires := func(entity: Entity) -> ExpiresComponent {
+    entity expires as ExpiresComponent
+}
+Health := func(entity: Entity) -> HealthComponent {
+    entity health as HealthComponent
+}
+Layer := func(entity: Entity) -> LayerComponent {
+    entity layer as LayerComponent
+}
+Position := func(entity: Entity) -> PositionComponent {
+    entity position as PositionComponent
+}
+Resource := func(entity: Entity) -> ResourceComponent {
+    entity resource as ResourceComponent
+}
+ScaleTween := func(entity: Entity) -> ScaleTweenComponent {
+    entity scaleTween as ScaleTweenComponent
+}
+Scale := func(entity: Entity) -> ScaleComponent {
+    entity scale as ScaleComponent
+}
+Score := func(entity: Entity) -> ScoreComponent {
+    entity score as ScoreComponent
+}
+SoundEffect := func(entity: Entity) -> SoundEffectComponent {
+    entity soundEffect as SoundEffectComponent
+}
+Text := func(entity: Entity) -> TextComponent {
+    entity text as TextComponent
+}
+Tint := func(entity: Entity) -> TintComponent {
+    entity tint as TintComponent
+}
+Velocity := func(entity: Entity) -> VelocityComponent {
+    entity velocity as VelocityComponent
+}
+Hud := func(entity: Entity) -> HudComponent {
+    entity hud as HudComponent
 }
 
 
@@ -1142,52 +1183,6 @@ extend Entity {
         this
     }
 
-    /* Entity: Entity methods*/
-
-    /** @type Entity */
-    entity : IComponent {
-        get { getComponent(Component Entity as Int) }
-    }
-    /** @type boolean */
-    hasEntity : Bool {
-        get { hasComponent(Component Entity as Int) }
-    }
-    clearEntityComponentPool: func() {
-        __entityComponentPool clear()
-    }
-    /**
-     * @param entity Entity
-     * @return entitas.Entity
-     */
-    addEntity: func(entity:Entity) -> This {
-        c := __entityComponentPool empty?() ? EntityComponent new() : __entityComponentPool pop()
-        c entity = entity
-        addComponent(Component Entity as Int, c)
-        this
-    }
-    /**
-     * @param entity Entity
-     * @return entitas.Entity
-     */
-    replaceEntity: func(entity:Entity) -> This {
-        previousComponent := this hasEntity ? this entity as EntityComponent : null
-        c := __entityComponentPool empty?() ? EntityComponent new() : __entityComponentPool pop()
-        c entity = entity
-        replaceComponent(Component Entity as Int, c) 
-        if (previousComponent != null)
-            __entityComponentPool push(previousComponent)
-        this
-    }
-    /**
-     * @returns entitas.Entity
-     */
-    removeEntity: func() -> This {
-        c := entity as EntityComponent
-        removeComponent(Component Entity as Int) 
-        __entityComponentPool push(c)
-        this
-    }
-
 }
 
 
@@ -1235,8 +1230,6 @@ __tintComponentPool : Stack<TintComponent>
 __velocityComponentPool : Stack<VelocityComponent>
     /** @type Stack<Hud> */
 __hudComponentPool : Stack<HudComponent>
-    /** @type Stack<Entity> */
-__entityComponentPool : Stack<EntityComponent>
 
 
 initPools: func(){
@@ -1296,8 +1289,5 @@ initPools: func(){
     __hudComponentPool = Stack<HudComponent> new()
     for(i in 1..POOL_SIZE) 
         __hudComponentPool push(HudComponent new())
-    __entityComponentPool = Stack<EntityComponent> new()
-    for(i in 1..POOL_SIZE) 
-        __entityComponentPool push(EntityComponent new())
 
 }

@@ -47,6 +47,11 @@ Component: enum {
 {% endfor %}    init: func()
 }{% endif %}{% endfor %}
 
+{% for component in components %}{% if component.value != false %}
+{{ component.key }} := func(entity: Entity) -> {{ component.key }}Component {
+    entity {{ component.key | camel }} as {{ component.key }}Component
+}{% endif %}{% endfor %}
+
 
 /**
 * Entity extensions
